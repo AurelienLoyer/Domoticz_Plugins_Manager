@@ -80,15 +80,4 @@ if (preg_match('/\d{1,3}(,\d{3})*(\.\d+)?/', $temperature_pi, $matches) > 0) {
     send_to_domoticz(71,$temperature_pi);
 }
 
-
-/*****
-**** METEO API
-******/
-
-$openweatherapikey = "d3fc38b845cd365bd249dfab26338e96";
-$url = "http://api.openweathermap.org/data/2.5/weather?q=Lille,fr&units=metric&APPID=".$openweatherapikey;
-$json = json_decode(file_get_contents($url));
-$temperature = $json->main->temp;
-echo $temperature;
-
 ?>

@@ -41,7 +41,7 @@ if($current_ip != $old_ip){
 		}
 		//Domoticz
 		if($config->notice_domoticz->active){
-			echo "on preveitn domoticz";
+			echo "on previent domoticz";
 		}
 		//...
 	}
@@ -72,7 +72,7 @@ function send_to_domoticz($idx,$svalue,$type=NULL,$nvalue=NULL,$string=NULL){
   	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, false);
     $result = curl_exec($ch);
-    
+
     if($display_result){
 		echo "<br>";
 	    echo "- Set value ".$svalue." to device idx".$idx;
