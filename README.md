@@ -1,5 +1,18 @@
 # Scripts list
 
+### My crontab list
+
+```crontab
+#Every hours
+0 */1 * * * /usr/bin/php5 /home/pi/scripts/chaqueheure.php
+
+#Rain propability every 10 minutes
+*/10 * * * *  /home/pi/scripts/get_rain_probability.sh > /tmp/probal_rain.log
+
+#Car data every 6 minutes (Why 6 ? I don't know...)
+*/6 * * * * /usr/bin/php5 /home/pi/scripts/xee.php
+```
+
 ## Internet state
 Download, Upload state in Domoticz.
 
