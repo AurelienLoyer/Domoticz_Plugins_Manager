@@ -4,13 +4,13 @@
 
 ```crontab
 #Every hours
-0 */1 * * * /usr/bin/php5 /home/pi/scripts/chaqueheure.php
+0 */1 * * * /usr/bin/php5 /home/pi/domoticz_scripts/internet-stat-domoticz-php/index.php
 
-#Rain propability every 10 minutes
-*/10 * * * *  /home/pi/scripts/get_rain_probability.sh > /tmp/probal_rain.log
+#Every 10 minutes
+*/10 * * * * /usr/bin/php5 /home/pi/domoticz_scripts/raspberry-pi-stat-domoticz-php/index.php
 
 #Car data every 6 minutes (Why 6 ? I don't know...)
-*/6 * * * * /usr/bin/php5 /home/pi/scripts/xee.php
+*/6 * * * * /usr/bin/php5 /home/pi/domoticz_scripts/xee-car-data-to-domoticz-php/xee.php
 ```
 
 ## Internet state
