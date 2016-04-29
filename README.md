@@ -1,14 +1,21 @@
 # Scripts list
 
 ## Internet state
+Download, Upload state in Domoticz.
 
 ## Raspberry state
+Display Raspberry Pi state in Domoticz (CPU,RAM,Temperature...).
 
 ## Notice public IP change
+Notice user public IP change, notice method : mail, sms, and Domoticz custom or text widget.
 
-## Xee car data to domoticz
+## Notice SMS plugin Domoticz
 
-Récupérer les informations de votre voiture grâce au boîtier Xee et envoyez-les vers Domoticz !
+Use Free Mobile API to notice user from custom text in parameter.
+
+## Xee car data to Domoticz
+
+Retrieve information from your precious Xee case and send them to Domoticz !
 
 ![Preview img](xee-car-data-to-domoticz-php/screen/cap_domoticz.png)
 
@@ -20,3 +27,21 @@ Récupérer les informations de votre voiture grâce au boîtier Xee et envoyez-
 
 # TODO
 - [ ] News scripts
+
+### Notice public IP change
+- [ ] Mail Notification
+- [ ] Free Mobile SMS Notification
+- [ ] Send new IP to Domoticz Widget
+
+### Notice SMS plugin Domoticz
+
+- [ ] All
+
+### Internet state
+- [ ] All
+
+### Xee car data to Domoticz
+- [X] Get data and send to Domoticz
+- [ ] Select car id
+- [ ] Send road list
+- [ ] Get Token by web interface
