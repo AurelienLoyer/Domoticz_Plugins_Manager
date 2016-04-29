@@ -26,22 +26,23 @@ Retrieve information from your precious Xee case and send them to Domoticz !
 [Domoticz](https://domoticz.com/)<br />
 
 # TODO
+
 - [ ] News scripts
 
 ### Notice public IP change
+
 - [ ] Mail Notification
 - [ ] Free Mobile SMS Notification
 - [ ] Send new IP to Domoticz Widget
 
 ### Notice SMS plugin Domoticz
 
-- [ ] All
-
 ### Internet state
-- [ ] All
 
-### Xee car data to Domoticz
+### Xee cars data to Domoticz
+
 - [X] Get data and send to Domoticz
 - [ ] Select car id
+- [ ] Send multiple cars data
 - [ ] Send road list
 - [ ] Get Token by web interface
