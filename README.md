@@ -3,7 +3,7 @@
 ## Internet state
 Download, Upload state in Domoticz.
 
-![Preview img](xee-car-data-to-domoticz-php/screen/cap_domoticz.png)
+![Preview img](internet-stat-domoticz-php/screen/domoticz_inter_stat.png)
 
 ## Raspberry state
 Display Raspberry Pi state in Domoticz (CPU,RAM,Temperature...).
