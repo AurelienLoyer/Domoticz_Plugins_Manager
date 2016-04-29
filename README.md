@@ -3,18 +3,20 @@
 ## Internet state
 Download, Upload state in Domoticz.
 
+![Preview img](xee-car-data-to-domoticz-php/screen/cap_domoticz.png)
+
 ## Raspberry state
 Display Raspberry Pi state in Domoticz (CPU,RAM,Temperature...).
+
+![Preview img](raspberry-pi-stat-domoticz-php/screen/pi-stat.png)
 
 ## Notice public IP change
 Notice user public IP change, notice method : mail, sms, and Domoticz custom or text widget.
 
 ## Notice SMS plugin Domoticz
-
 Use Free Mobile API to notice user from custom text in parameter.
 
 ## Xee car data to Domoticz
-
 Retrieve information from your precious Xee case and send them to Domoticz !
 
 ![Preview img](xee-car-data-to-domoticz-php/screen/cap_domoticz.png)
