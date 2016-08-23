@@ -16,7 +16,8 @@ if($mod_debug){
 $display_result = true;
 
 // Réglages xee api
-$file = '/home/pi/scripts/xee_token.txt'; //fichier pour le token xee
+$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$file = 'xee_token.txt'; //fichier pour le token xee
 $client_id = "1PtbcpTn0OdKSbFMDwNP"; // client id de l'app xee
 $client_secret = "1PHY1aY6DDg21PZsvuAk"; // client secret de l'app xee
 $scope = urlencode("user_get email_get car_get data_get location_get address_all accelerometer_get"); // données retournées par l'api xee
@@ -28,11 +29,12 @@ $garage_lng = 3.032489; // longitude
 $garage_radis_size = 0.7; // taille de la zone autour du garage en kilomètre
 
 // Urls du script
-//$current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; // url du script pour la redirection /!\ url défini dans l'appli xee.
-//$auth_url = 'https://cloud.xee.com/v1/auth/auth?client_id='.$client_id.'&scope='.$scope.'&redirect_uri='.$current_url; // url xee d'auth
+$current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; // url du script pour la redirection /!\ url défini dans l'appli xee.
+$auth_url = 'https://cloud.xee.com/v1/auth/auth?client_id='.$client_id.'&scope='.$scope.'&redirect_uri='.$current_url; // url xee d'auth
 $access_token_url = 'https://cloud.xee.com/v1/auth/access_token.json'; // url xee recuperation des tokens
 
 // On recupere le fichier ou est le token
+$file = str_replace('xee.php','',$actual_link).$file;
 $token = json_decode(file_get_contents($file),true);
 
 if($token && array_key_exists('access_token',$token)){
@@ -41,7 +43,7 @@ if($token && array_key_exists('access_token',$token)){
 		get_xee_data($token);
 	}else{
 		// On demande de nouveau un token avec le refresh token et on le sauvegarde
-		$credentials = $client_id.":".$client_secret; 
+		$credentials = $client_id.":".$client_secret;
 		$params = array(
 		    'grant_type' => 'refresh_token',
 		    'refresh_token' => $token['refresh_token']
@@ -54,13 +56,13 @@ if($token && array_key_exists('access_token',$token)){
 		file_put_contents($file, $json);
 		get_xee_data(json_decode($json,true));
 	}
-	
+
 }else if(!isset($_GET['code'])){ // Si on n'a pas de code et de token enregistré on redirige le user sur le login xee.
 	header('Location:'.$auth_url);
 	exit();
 }else{
 
-	$credentials = $client_id.":".$client_secret; 
+	$credentials = $client_id.":".$client_secret;
 	$params = array(
 	    'code' => $_GET['code'],
 	    'grant_type' => 'authorization_code'
@@ -85,11 +87,11 @@ function verif_token($token){
 		return true;
 	else
 		return false;
-}	
+}
 
 function httpPost($url,$params,$headers,$credentials){
 	$postData = '';
-	
+
 	foreach($params as $k => $v)
 	{
 		$postData .= $k . '='.$v.'&';
@@ -132,7 +134,7 @@ function get_xee_data($token){
 
 	$car_data = [];
 	foreach(json_decode($car,true)['signals'] as $signal){
-		$car_data[$signal['name']] = $signal['value']; 
+		$car_data[$signal['name']] = $signal['value'];
 	}
 
 
@@ -144,7 +146,7 @@ function get_xee_data($token){
 	if(1){
 		//Kilometrage total
 		send_to_domoticz(212,$car_data['Odometer'],0,1);
-		
+
 		//Niveau Diesel
 		send_to_domoticz(211,$car_data['FuelLevel'],0,1);
 
@@ -181,17 +183,17 @@ function get_xee_data($token){
 	}
 }
 
-function getDistance( $latitude1, $longitude1, $latitude2, $longitude2 ) {  
+function getDistance( $latitude1, $longitude1, $latitude2, $longitude2 ) {
     $earth_radius = 6371;
 
-    $dLat = deg2rad( $latitude2 - $latitude1 );  
-    $dLon = deg2rad( $longitude2 - $longitude1 );  
+    $dLat = deg2rad( $latitude2 - $latitude1 );
+    $dLon = deg2rad( $longitude2 - $longitude1 );
 
-    $a = sin($dLat/2) * sin($dLat/2) + cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * sin($dLon/2) * sin($dLon/2);  
-    $c = 2 * asin(sqrt($a));  
-    $d = $earth_radius * $c;  
+    $a = sin($dLat/2) * sin($dLat/2) + cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * sin($dLon/2) * sin($dLon/2);
+    $c = 2 * asin(sqrt($a));
+    $d = $earth_radius * $c;
 
-    return $d;  
+    return $d;
 }
 
 
@@ -219,7 +221,7 @@ function send_to_domoticz($idx,$svalue,$type=NULL,$nvalue=NULL,$string=NULL){
   	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, false);
     $result = curl_exec($ch);
-    
+
     if($display_result){
 		echo "<br>";
 	    echo "- Set value ".$svalue." to device idx".$idx;
