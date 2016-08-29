@@ -7,35 +7,38 @@
  * @github github.com/T3kstiil3
  */
 
+header("Access-Control-Allow-Origin: *");
+
 // Dev mode ON :)
 $mod_debug = true;
 if($mod_debug){
 	error_reporting(E_ALL);  // On affiche les erreurs php
 	ini_set("display_errors", 1); // On affiche les erreurs php
 }
-$display_result = true;
+$display_result = false;
 
 // Réglages xee api
-$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-$file = 'xee_token.txt'; //fichier pour le token xee
-$client_id = "1PtbcpTn0OdKSbFMDwNP"; // client id de l'app xee
-$client_secret = "1PHY1aY6DDg21PZsvuAk"; // client secret de l'app xee
-$scope = urlencode("user_get email_get car_get data_get location_get address_all accelerometer_get"); // données retournées par l'api xee
+$actual_link = "http://$_SERVER[HTTP_HOST]".parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+$file_token = './xee_token.txt'; //fichier pour le token xee
+$file_conf = 'xee_conf.json'; //fichier pour la conf xee
+// On recupere les fichier token & conf
+//$file_token = str_replace('xee.php','',$actual_link).$file_token;
+$file_conf = str_replace('xee.php','',$actual_link).$file_conf;
 
-// Réglages script
-$domoticz_url = '127.0.0.1:8080'; // url de votre domoticz
-$garage_lat = 50.626142; // latitude
-$garage_lng = 3.032489; // longitude
-$garage_radis_size = 0.7; // taille de la zone autour du garage en kilomètre
+$token = json_decode(file_get_contents($file_token),true);
+$conf = json_decode(file_get_contents($file_conf),true);
+
+$client_id = $conf['Client_Id']; // client id de l'app xee
+$client_secret = $conf['Client_secret']; // client secret de l'app xee
+$domoticz_url = $conf['domoticz_url']; // url de votre domoticz
+$garage_lat = $conf['garage_lat']; // latitude
+$garage_lng = $conf['garage_lng']; // longitude
+$garage_radis_size = $conf['garage_radis_size']; // taille de la zone autour du garage en kilomètre
 
 // Urls du script
 $current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; // url du script pour la redirection /!\ url défini dans l'appli xee.
-$auth_url = 'https://cloud.xee.com/v1/auth/auth?client_id='.$client_id.'&scope='.$scope.'&redirect_uri='.$current_url; // url xee d'auth
-$access_token_url = 'https://cloud.xee.com/v1/auth/access_token.json'; // url xee recuperation des tokens
-
-// On recupere le fichier ou est le token
-$file = str_replace('xee.php','',$actual_link).$file;
-$token = json_decode(file_get_contents($file),true);
+$auth_url = 'https://cloud.xee.com/v3/auth/auth?client_id='.$client_id.'&redirect_uri='.$current_url; // url xee d'auth
+$access_token_url = 'https://cloud.xee.com/v3/auth/access_token'; // url xee recuperation des tokens
 
 if($token && array_key_exists('access_token',$token)){
 	// On a un token dans notre fichier on vérifie qu'il est toujours valide sinon on en demande un nouveau
@@ -53,7 +56,7 @@ if($token && array_key_exists('access_token',$token)){
 			'Content-Type: application/x-www-form-urlencoded',
 		);
 		$json = httpPost($access_token_url,$params,$headers,$credentials);
-		file_put_contents($file, $json);
+		file_put_contents($file_token, $json);
 		get_xee_data(json_decode($json,true));
 	}
 
@@ -73,12 +76,13 @@ if($token && array_key_exists('access_token',$token)){
 	);
 
 	$json = httpPost($access_token_url,$params,$headers,$credentials);
+	echo $json;
 	$curl_object = json_decode($json,true);
 
 	if(array_key_exists('error',$curl_object)){
 		echo "Error : ".$json['error'];
 	}else{
-		file_put_contents($file, $json);
+		file_put_contents($file_token, $json);
 	}
 }
 
@@ -112,6 +116,19 @@ function httpPost($url,$params,$headers,$credentials){
 
 function get_xee_data($token){
 
+	$context = stream_context_create(array(
+    'http' => array(
+        'header'  => "Authorization: Bearer " . $token['access_token']
+    )
+	));
+
+	if(!isset($_GET['data'])){
+		$error = array('error' => 'No data specify !');
+		echo json_encode($error);
+		exit();
+	}else
+		$data = $_GET['data'];
+
 	global $domoticz_url, $garage_lng, $garage_lat, $garage_radis_size;
 
 	//On recupere le user id;
@@ -122,28 +139,39 @@ function get_xee_data($token){
 		return;
 
 	//On recupere les voitures
-	$cars = json_decode(file_get_contents('https://cloud.xee.com/v1/user/'.$user_id.'/car.json?access_token='.$token['access_token']),true);
+	$cars = json_decode(file_get_contents('https://cloud.xee.com/v3/users/'.$user_id.'/cars', false, $context), true);
 	//On pars du principe que l'utilisateur a une seule voiture...
 	$car_id = $cars[0]['id'];
 
-	$car = file_get_contents('https://cloud.xee.com/v1/car/'.$car_id.'/carstatus.json?access_token='.$token['access_token']);
-
-	if(1){
-		echo $car;
-	}
+	$car = file_get_contents('https://cloud.xee.com/v3/cars/'.$car_id.'/status', false, $context);
 
 	$car_data = [];
 	foreach(json_decode($car,true)['signals'] as $signal){
 		$car_data[$signal['name']] = $signal['value'];
 	}
 
-
 	$car_position = json_decode($car,true)['location'];
-
 	$distance = getDistance( $garage_lat, $garage_lng, $car_position['latitude'],$car_position['longitude']);
 
-	//Send to domoticz
-	if(1){
+	if($data == "car"){
+		echo $car;
+	}elseif($data == "trips"){
+		$trips = file_get_contents('https://cloud.xee.com/v3/cars/'.$car_id.'/trips', false, $context);
+		echo $trips;
+	}elseif($data == "trip"){
+		if(!isset($_GET['trip_id'])){
+			$error = array('error' => 'No trip id specify !');
+			echo json_encode($error);
+			exit();
+		}else{
+			$trip_id = $_GET['trip_id'];
+		}
+		$trips = file_get_contents('https://cloud.xee.com/v3/trips/'.$trip_id.'/signals', false, $context);
+		echo $trips;
+	}elseif($data == "distance"){
+		echo $distance;
+	}elseif($data == "domoticz"){
+
 		//Kilometrage total
 		send_to_domoticz(212,$car_data['Odometer'],0,1);
 
