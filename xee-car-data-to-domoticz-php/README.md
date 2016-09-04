@@ -36,6 +36,15 @@ Récupérer les informations de votre voiture grâce au boîtier Xee et envoyez-
 - Les informations de la premiere voiture sont envoyées vers domoticz
 - Il est nécessaire de créer des custom sensor ou autres dans domoticz pour les afficher
 
+- Nouveau paramètre dans l'url pour utiliser le script comme "api" -> ?data=
+ - ?data=domoticz envoie les données vers domoticz
+ - Retourne un json
+ 	- ?data=car renvoie les dernieres informations de la voiture
+ 	- ?data=trips renvoie la liste des derniers trajets
+ 	- ?data=trip&trip_id=45678905678456789 renvoie les données de la voiture sur un trajet spécifique
+
+Fonctionntalités utilisés pour mon miror connecté https://github.com/T3kstiil3/The_Mirror
+
 # Liens
 [Boîtier Xee](http://www.amazon.fr/gp/product/B01AIE4CHE/ref=as_li_tl?ie=UTF8&camp=1642&creative=6746&creativeASIN=B01AIE4CHE&linkCode=as2&tag=aureli-21)<br />
 [Raspberry Pi 3] (http://www.amazon.fr/gp/product/B01CCOXV34/ref=as_li_tl?ie=UTF8&camp=1642&creative=19458&creativeASIN=B01CCOXV34&linkCode=as2&tag=aureli-21)<br />
@@ -43,6 +52,7 @@ Récupérer les informations de votre voiture grâce au boîtier Xee et envoyez-
 [Domoticz](https://domoticz.com/)<br />
 
 # TODO
-- [X] Passer à la v3 de l'api Xee
+- [x] V3 de l'api Xee
+- [x] Utiliser le script sous forme d'api local
 - [ ] Commenter le code
 - [ ] Gérer plusieurs véhicules

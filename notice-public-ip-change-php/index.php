@@ -5,6 +5,7 @@
  * @author Aurélien Loyer
  * @site aurelien-loyer.fr
  * @github github.com/T3kstiil3
+ * @twitter @T3kstiil3
  */
 
 // Dev mode ON :)
@@ -13,6 +14,7 @@ if($mod_debug){
 	error_reporting(E_ALL);  // On affiche les erreurs php
 	ini_set("display_errors", 1); // On affiche les erreurs php
 }
+
 $display_result = true;
 
 //Fichiers script
@@ -24,7 +26,7 @@ $config = json_decode(file_get_contents($file_config));
 $old_ip = file_get_contents($file_ip);
 $current_ip = file_get_contents("http://ipecho.net/plain");
 
-if(0)
+if(1)
 	file_put_contents($file_ip, $current_ip);
 
 if($current_ip != $old_ip){
@@ -33,11 +35,11 @@ if($current_ip != $old_ip){
 		echo "not same ip notice user in progress !";
 		//Free
 		if($config->notice_free->active){
-			echo "on preveitn par sms via Free Api";
+			echo "on previent par sms via Free Api";
 		}
 		//Mail
 		if($config->notice_mail->active){
-			echo "on preveitn par mail";
+			echo "on previent par mail";
 		}
 		//Domoticz
 		if($config->notice_domoticz->active){

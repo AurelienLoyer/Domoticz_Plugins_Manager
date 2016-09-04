@@ -3,14 +3,16 @@
 ### My crontab list
 
 ```crontab
+
 #Every hours
 0 */1 * * * /usr/bin/php5 /home/pi/domoticz_scripts/internet-stat-domoticz-php/index.php
 
 #Every 10 minutes
 */10 * * * * /usr/bin/php5 /home/pi/domoticz_scripts/raspberry-pi-stat-domoticz-php/index.php
 
-#Car data every 6 minutes (Why 6 ? I don't know...)
-*/6 * * * * /usr/bin/php5 /home/pi/domoticz_scripts/xee-car-data-to-domoticz-php/xee.php
+#Car data every 6 minutes (Why 6 ? I don't know... Don't forget data=domoticz parameter)
+*/6 * * * * /usr/bin/php5 /home/pi/domoticz_scripts/xee-car-data-to-domoticz-php/xee.php  data=domoticz
+
 ```
 
 ## Internet state

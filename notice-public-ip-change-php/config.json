@@ -13,6 +13,7 @@
 		"msg": "[ALERTE DOMOTIQUE] IP Publique change to -> %IP%"
 	},
 	"notice_domoticz":{
-		"active": true
+		"active": true,
+		"widget_id" : 123
 	}
 }

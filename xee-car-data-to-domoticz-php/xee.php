@@ -9,24 +9,30 @@
 
 header("Access-Control-Allow-Origin: *");
 
+if($argv && $argv[1]){
+	parse_str($argv[1], $params);
+	$_GET = $params;
+}
+
 // Dev mode ON :)
 $mod_debug = true;
 if($mod_debug){
 	error_reporting(E_ALL);  // On affiche les erreurs php
 	ini_set("display_errors", 1); // On affiche les erreurs php
 }
+
 $display_result = false;
 
 // Réglages xee api
 $actual_link = "http://$_SERVER[HTTP_HOST]".parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-$file_token = './xee_token.txt'; //fichier pour le token xee
+$file_token = 'xee_token.txt'; //fichier pour le token xee
 $file_conf = 'xee_conf.json'; //fichier pour la conf xee
 // On recupere les fichier token & conf
 //$file_token = str_replace('xee.php','',$actual_link).$file_token;
-$file_conf = str_replace('xee.php','',$actual_link).$file_conf;
+//$file_conf = str_replace('xee.php','',$actual_link).$file_conf;
 
-$token = json_decode(file_get_contents($file_token),true);
-$conf = json_decode(file_get_contents($file_conf),true);
+$token = json_decode(file_get_contents($file_token,FILE_USE_INCLUDE_PATH),true);
+$conf = json_decode(file_get_contents($file_conf,FILE_USE_INCLUDE_PATH),true);
 
 $client_id = $conf['Client_Id']; // client id de l'app xee
 $client_secret = $conf['Client_secret']; // client secret de l'app xee
@@ -36,7 +42,7 @@ $garage_lng = $conf['garage_lng']; // longitude
 $garage_radis_size = $conf['garage_radis_size']; // taille de la zone autour du garage en kilomètre
 
 // Urls du script
-$current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; // url du script pour la redirection /!\ url défini dans l'appli xee.
+$current_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; //  url du script pour la redirection /!\ url défini dans l'appli xee.
 $auth_url = 'https://cloud.xee.com/v3/auth/auth?client_id='.$client_id.'&redirect_uri='.$current_url; // url xee d'auth
 $access_token_url = 'https://cloud.xee.com/v3/auth/access_token'; // url xee recuperation des tokens
 
@@ -169,7 +175,13 @@ function get_xee_data($token){
 		$trips = file_get_contents('https://cloud.xee.com/v3/trips/'.$trip_id.'/signals', false, $context);
 		echo $trips;
 	}elseif($data == "distance"){
-		echo $distance;
+		if($distance <= $garage_radis_size){
+			$distance = array('distance' => 'La voiture est dans la zone autour du garage');
+		}else{
+			$distance = array('distance' => 'La voiture est en dehors de la zone autour du garage');
+		}
+		echo json_encode($distance);
+		exit();
 	}elseif($data == "domoticz"){
 
 		//Kilometrage total
@@ -178,12 +190,12 @@ function get_xee_data($token){
 		//Niveau Diesel
 		send_to_domoticz(211,$car_data['FuelLevel'],0,1);
 
-		//Ceinture conducteur
-		if($car_data['FrontLeftSeatBeltSts'] == 0){
+		//Ceinture conducteur n'est plus présent dans le retour api
+		/*if($car_data['FrontLeftSeatBeltSts'] == 0){
 			send_to_domoticz(198,1,null,null,'&switchcmd=Off');
 		}else{
 			send_to_domoticz(198,1,null,null,'&switchcmd=On');
-		}
+		}*/
 
 		//Voiture a moins de ... km du garage.
 		if($distance <= $garage_radis_size){

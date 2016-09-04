@@ -15,28 +15,6 @@ function send_to_domoticz($idx,$svalue,$type=NULL){
     echo "\r\n <br><br>";
 }
 
-// CONNECTION VITESSE INTERNET
-
-exec('/usr/local/bin/speedtest --simple > /home/pi/speedtest.log');
-$file = file_get_contents('/home/pi/speedtest.log');
-$file = nl2br($file);
-$file = explode("<br />", $file);
-$ping = str_replace('.', '.', $file[0]);
-$download = str_replace('.', '.', $file[1]);
-$upload = str_replace('.', '.', $file[2]);
-if (preg_match('/\d{1,3}(,\d{3})*(\.\d+)?/', $ping, $matches) > 0) {
-    $ping = $matches[0];
-    send_to_domoticz(109,$ping,1);
-}
-if (preg_match('/\d{1,3}(,\d{3})*(\.\d+)?/', $download, $matches) > 0) {
-    $download = $matches[0];
-    send_to_domoticz(111,$download,1);
-}
-if (preg_match('/\d{1,3}(,\d{3})*(\.\d+)?/', $upload, $matches) > 0) {
-    $upload = $matches[0];
-    send_to_domoticz(110,$upload,1);
-}
-
 /***
 *** RPI
 ***/
@@ -79,5 +57,3 @@ if (preg_match('/\d{1,3}(,\d{3})*(\.\d+)?/', $temperature_pi, $matches) > 0) {
     $temperature_pi = $matches[0];
     send_to_domoticz(71,$temperature_pi);
 }
-
-?>
