@@ -1,6 +1,6 @@
 # Notice Publique IP Change
 
-Récupérer les informations de votre voiture grâce au boîtier Xee et envoyez-les vers Domoticz !
+Prévenir l'utilisateur que l'ip publique de domoticz vient de changer
 
 ![Preview img](notice-public-ip-change-php/screen/ip_domoticz.png)
 

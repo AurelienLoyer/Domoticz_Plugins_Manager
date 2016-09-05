@@ -26,7 +26,7 @@ $config = json_decode(file_get_contents($file_config));
 $old_ip = file_get_contents($file_ip);
 $current_ip = file_get_contents("http://ipecho.net/plain");
 
-if(1)
+if(1 || )
 	file_put_contents($file_ip, $current_ip);
 
 if($current_ip != $old_ip){
@@ -49,6 +49,28 @@ if($current_ip != $old_ip){
 	}
 }
 
+function create_default_config(){
+	$config = "{
+		"active": true,
+		"notice_free":{
+			"active": true,
+			"user": "********",
+			"pass": "********",
+			"msg": "[ALERTE DOMOTIQUE] IP Publique change to -> %IP%"
+		},
+		"notice_mail":{
+			"active": true,
+			"from": "domoticz@no-reply.fr",
+			"mail_to": "aur.loy@gmail.com",
+			"msg": "[ALERTE DOMOTIQUE] IP Publique change to -> %IP%"
+		},
+		"notice_domoticz":{
+			"active": true,
+			"widget_id" : 123
+		}
+	}";
+}
+
 
 function send_to_domoticz($idx,$svalue,$type=NULL,$nvalue=NULL,$string=NULL){
 	global $domoticz_url, $mod_debug,$display_result;
@@ -60,28 +82,28 @@ function send_to_domoticz($idx,$svalue,$type=NULL,$nvalue=NULL,$string=NULL){
 		$param = '&param=switchlight';
 	}
 
-    if(isset($type)){
-        $type = "&vtype=".$type;
-    }else{
-        $type = "";
-    }if(isset($nvalue)){
-        $nvalue = "&nvalue=0";
-    }else{
-        $nvalue = "";
-    }
-    $url = 'http://'.$domoticz_url.'/json.htm?type=command&idx='.$idx.$param.$type.$nvalue.'&svalue='.$svalue.$string;
-    $ch = curl_init($url);
-  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, false);
-    $result = curl_exec($ch);
+  if(isset($type)){
+      $type = "&vtype=".$type;
+  }else{
+      $type = "";
+  }if(isset($nvalue)){
+      $nvalue = "&nvalue=0";
+  }else{
+      $nvalue = "";
+  }
+  $url = 'http://'.$domoticz_url.'/json.htm?type=command&idx='.$idx.$param.$type.$nvalue.'&svalue='.$svalue.$string;
+  $ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HEADER, false);
+  $result = curl_exec($ch);
 
-    if($display_result){
+  if($display_result){
 		echo "<br>";
-	    echo "- Set value ".$svalue." to device idx".$idx;
-	    echo "<br>";
-	    echo $url;
-	    echo "<br><br>";
-	    echo "\r\n";
+    echo "- Set value ".$svalue." to device idx".$idx;
+    echo "<br>";
+    echo $url;
+    echo "<br><br>";
+    echo "\r\n";
 	}
 }
 
