@@ -17,40 +17,64 @@ if($mod_debug){
 
 $display_result = true;
 
-//Fichiers script
+//Fichiers script & config
 $file_ip = 'last_ip_save.txt'; //fichier pour l'ip
 $file_config = 'config.json'; // fichier de config
+$free_url = 'https://smsapi.free-mobile.fr/sendmsg'; // url free api
 
 // On recupere le fichier de config et l'ip
 $config = json_decode(file_get_contents($file_config));
 $old_ip = file_get_contents($file_ip);
 $current_ip = file_get_contents("http://ipecho.net/plain");
 
-if(1 || )
-	file_put_contents($file_ip, $current_ip);
+if(!$config){
+	create_default_config($file_config);
+}
+$domoticz_url = $config->notice_domoticz->domoticz_url;
+
+//file_put_contents($file_ip, $current_ip);
 
 if($current_ip != $old_ip){
 	//Les ip sont différentes
 	if($config->active){
-		echo "not same ip notice user in progress !";
+		echo "Not same ip notice user in progress !<br>";
 		//Free
 		if($config->notice_free->active){
-			echo "on previent par sms via Free Api";
+			echo "- On previent par sms via Free Api<br>";
+			$message = str_replace('%IP%',$current_ip,$config->notice_free->msg);
+			$user = $config->notice_free->user;
+			$pass = $config->notice_free->pass;
+			$url = $free_url."?user=".$user."&pass=".$pass."&msg=".$message;
+			echo $url."</br>";
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_exec($ch);
+			curl_close($ch);
 		}
 		//Mail
 		if($config->notice_mail->active){
-			echo "on previent par mail";
+			echo "- On previent par mail<br>";
+			$message = str_replace('%IP%',$current_ip,$config->notice_mail->msg);
+			$headers   = array();
+			$headers[] = "MIME-Version: 1.0";
+			$headers[] = "Content-type: text/plain; charset=utf";
+			$headers[] = "From: Domoticz <".$config->notice_mail->from.">";
+			mail($config->notice_mail->mail, $config->notice_mail->subject, $message, implode("\r\n", $headers));
 		}
 		//Domoticz
 		if($config->notice_domoticz->active){
-			echo "on previent domoticz";
+			echo "- On previent domoticz<br>";
+			send_to_domoticz($config->notice_domoticz->widget_id,$current_ip,NULL,0,NULL);
 		}
 		//...
 	}
+}else{
+	echo 'Same IP do nothing';
 }
 
-function create_default_config(){
-	$config = "{
+function create_default_config($file_config){
+	$config = '{
 		"active": true,
 		"notice_free":{
 			"active": true,
@@ -61,14 +85,17 @@ function create_default_config(){
 		"notice_mail":{
 			"active": true,
 			"from": "domoticz@no-reply.fr",
-			"mail_to": "aur.loy@gmail.com",
+			"subject" : "[ALERTE DOMOTIQUE]",
+			"mail_to": "mail.test@gmail.com",
 			"msg": "[ALERTE DOMOTIQUE] IP Publique change to -> %IP%"
 		},
 		"notice_domoticz":{
 			"active": true,
+			"domoticz_url" : "ip.de.mon.domoticz:port",
 			"widget_id" : 123
 		}
-	}";
+	}';
+	file_put_contents($file_config, $config);
 }
 
 
@@ -103,6 +130,7 @@ function send_to_domoticz($idx,$svalue,$type=NULL,$nvalue=NULL,$string=NULL){
     echo "<br>";
     echo $url;
     echo "<br><br>";
+		echo $result;
     echo "\r\n";
 	}
 }
