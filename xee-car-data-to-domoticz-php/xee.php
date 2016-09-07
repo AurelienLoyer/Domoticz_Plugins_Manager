@@ -62,8 +62,13 @@ if($token && array_key_exists('access_token',$token)){
 			'Content-Type: application/x-www-form-urlencoded',
 		);
 		$json = httpPost($access_token_url,$params,$headers,$credentials);
-		file_put_contents($file_token, $json);
-		get_xee_data(json_decode($json,true));
+		$curl_object = json_decode($json,true);
+		if(array_key_exists('error',$curl_object)){
+			echo "Error : ".$json['error'];
+		}else{
+			file_put_contents($file_token, $json);
+			get_xee_data(json_decode($json,true));
+		}
 	}
 
 }else if(!isset($_GET['code'])){ // Si on n'a pas de code et de token enregistré on redirige le user sur le login xee.

@@ -28,8 +28,11 @@ Display Raspberry Pi state in Domoticz (CPU,RAM,Temperature...).
 ## Notice public IP change
 Notice user public IP change, notice method : mail, sms, and Domoticz custom or text widget.
 
+![Preview img](notice-public-ip-change-php/screen/notice-ip-screen.png)
+
 ## Notice SMS plugin Domoticz
 Use Free Mobile API to notice user from custom text in parameter.
+[notice-sms-free-api-php] notice-sms-free-api-php
 
 ## Xee car data to Domoticz
 Retrieve information from your precious Xee case and send them to Domoticz !
