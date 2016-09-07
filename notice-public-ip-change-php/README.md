@@ -2,7 +2,7 @@
 
 Prévenir l'utilisateur que l'ip publique de domoticz vient de changer
 
-![Preview img](notice-public-ip-change-php/screen/ip_domoticz.png)
+![Preview img](screen/ip_domoticz.png)
 
 # Configurations
 

@@ -32,7 +32,8 @@ Notice user public IP change, notice method : mail, sms, and Domoticz custom or 
 
 ## Notice SMS plugin Domoticz
 Use Free Mobile API to notice user from custom text in parameter.
-[notice-sms-free-api-php] notice-sms-free-api-php
+![Preview img](notice-sms-free-api-php/screen/screen.png)
+
 
 ## Xee car data to Domoticz
 Retrieve information from your precious Xee case and send them to Domoticz !

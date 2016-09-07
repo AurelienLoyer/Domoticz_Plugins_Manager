@@ -1,8 +1,8 @@
 # Notice Publique IP Change
 
-Prévenir l'utilisateur que l'ip publique de domoticz vient de changer
+Prévenir l'utilisateur via l'api free message et comptabilisé le nombre de notification dans un widget
 
-![Preview img](notice-public-ip-change-php/screen/ip_domoticz.png)
+![Preview img](screen/ip_domoticz.png)
 
 # Configurations
 
@@ -10,23 +10,11 @@ config.json
 ```json
 {
 	"active": true,
-	"notice_free":{
-		"active": true,
-		"user": "********",
-		"pass": "********",
-		"msg": "[ALERTE DOMOTIQUE] IP Publique change to -> %IP%"
-	},
-	"notice_mail":{
-		"active": true,
-		"from": "domoticz@no-reply.fr",
-		"mail_to": "aur.loy@gmail.com",
-		"msg": "[ALERTE DOMOTIQUE] IP Publique change to -> %IP%"
-	},
-	"notice_domoticz":{
-		"active": true,
-		"widget_id" : 123
-	}
+	"user": "12123123123",
+	"pass": "AZERTYUIOP",
+	"msg": "[ALERTE DOMOTIQUE] %MESSAGE%"
 }
+
 ```
 
 # Liens
@@ -34,4 +22,4 @@ config.json
 [Domoticz](https://domoticz.com/)<br />
 
 # TODO
-- [ ] Nouveaux scripts
+- [ ] Envoi a domoticz
