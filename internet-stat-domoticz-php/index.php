@@ -26,15 +26,15 @@ $download = str_replace('.', '.', $file[1]);
 $upload = str_replace('.', '.', $file[2]);
 if (preg_match('/\d{1,3}(,\d{3})*(\.\d+)?/', $ping, $matches) > 0) {
     $ping = $matches[0];
-    send_to_domoticz(109,$ping,1);
+    send_to_domoticz(218,$ping,1);
 }
 if (preg_match('/\d{1,3}(,\d{3})*(\.\d+)?/', $download, $matches) > 0) {
     $download = $matches[0];
-    send_to_domoticz(111,$download,1);
+    send_to_domoticz(216,$download,1);
 }
 if (preg_match('/\d{1,3}(,\d{3})*(\.\d+)?/', $upload, $matches) > 0) {
     $upload = $matches[0];
-    send_to_domoticz(110,$upload,1);
+    send_to_domoticz(217,$upload,1);
 }
 
 ?>
