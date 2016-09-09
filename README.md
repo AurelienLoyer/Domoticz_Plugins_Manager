@@ -13,6 +13,9 @@
 #Car data every 6 minutes (Why 6 ? I don't know... Don't forget data=domoticz parameter)
 */6 * * * * /usr/bin/php5 /home/pi/domoticz_scripts/xee-car-data-to-domoticz-php/xee.php  data=domoticz
 
+#Notice plublic ip change every 5 minutes
+*/5 * * * * /usr/bin/php5 /home/pi/domoticz_scripts/notice-public-ip-change-php/index.php
+
 ```
 
 ## Internet state
@@ -32,6 +35,7 @@ Notice user public IP change, notice method : mail, sms, and Domoticz custom or 
 
 ## Notice SMS plugin Domoticz
 Use Free Mobile API to notice user from custom text in parameter.
+
 ![Preview img](notice-sms-free-api-php/screen/screen.png)
 
 
