@@ -16,6 +16,9 @@
 #Notice plublic ip change every 5 minutes
 */5 * * * * /usr/bin/php5 /home/pi/domoticz_scripts/notice-public-ip-change-php/index.php
 
+#Get Rain probabillity every 10 minutes
+*/10 * * * * /usr/bin/php5 /home/pi/domoticz_scripts/get_rain_probability-php/index.php
+
 ```
 
 ## Internet state
