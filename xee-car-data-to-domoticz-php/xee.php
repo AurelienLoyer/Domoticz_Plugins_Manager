@@ -9,7 +9,7 @@
 
 header("Access-Control-Allow-Origin: *");
 
-if($argv && $argv[1]){
+if(isset($argv) && isset($argv[1])){
 	parse_str($argv[1], $params);
 	$_GET = $params;
 }
@@ -148,7 +148,7 @@ function get_xee_data($token){
 
 	if(!$user_id)
 		return;
-
+		
 	//On recupere les voitures
 	$cars = json_decode(file_get_contents('https://cloud.xee.com/v3/users/'.$user_id.'/cars', false, $context), true);
 	//On pars du principe que l'utilisateur a une seule voiture...
@@ -165,19 +165,23 @@ function get_xee_data($token){
 	$distance = getDistance( $garage_lat, $garage_lng, $car_position['latitude'],$car_position['longitude']);
 
 	if($data == "car"){
+		header('Content-Type: application/json');
 		echo $car;
 	}elseif($data == "trips"){
 		$trips = file_get_contents('https://cloud.xee.com/v3/cars/'.$car_id.'/trips', false, $context);
+		header('Content-Type: application/json');
 		echo $trips;
 	}elseif($data == "trip"){
 		if(!isset($_GET['trip_id'])){
 			$error = array('error' => 'No trip id specify !');
+			header('Content-Type: application/json');
 			echo json_encode($error);
 			exit();
 		}else{
 			$trip_id = $_GET['trip_id'];
 		}
 		$trips = file_get_contents('https://cloud.xee.com/v3/trips/'.$trip_id.'/signals', false, $context);
+		header('Content-Type: application/json');
 		echo $trips;
 	}elseif($data == "distance"){
 		if($distance <= $garage_radis_size){
@@ -185,6 +189,7 @@ function get_xee_data($token){
 		}else{
 			$distance = array('distance' => 'La voiture est en dehors de la zone autour du garage');
 		}
+		header('Content-Type: application/json');
 		echo json_encode($distance);
 		exit();
 	}elseif($data == "domoticz"){

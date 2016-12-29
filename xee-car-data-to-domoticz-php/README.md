@@ -1,6 +1,6 @@
-# xee-car-data-to-domoticz-php
+# Xee car data to Domoticz in Php :)
 
-Récupérer les informations de votre voiture grâce au boîtier Xee et envoyez-les vers Domoticz !
+Get all car informations with Xee et send all on Domoticz !
 
 # Aperçu
 
@@ -8,31 +8,86 @@ Récupérer les informations de votre voiture grâce au boîtier Xee et envoyez-
 
 ![Preview img](screen/cap_domoticz_plan.png)
 
-# Informations
+# Configuration
 
-- Première utilisation ? Lancer le script depuis un serveur web pour récupérer le token Xee
-- Le token est enregistré dans le fichier token.txt
-- Le script utilise le token ou fait la demande d'un nouveau token si celui-ci est expiré automatiquement grâce au refresh_token
-- Il est nécessaire de créer un compte développeur sur https://developer.xee.com/ et de créer une application
-- Renseigner les informations de l'application dans un fichier xee_conf.json sous cette forme :
+- Create a dev Xee account on https://developer.xee.com/
+- Create a Xee application
+
+![Preview app conf](screen/cap_xee_app_conf)
+
+- Note all application informations in a file xee_conf.json like this :
 
 ```json
 {
   "Client_Id" : "clientid",
   "Client_secret" : "clientsecret",
   "domoticz_url" : "127.0.0.1:8080",
-  "garage_lat" : 52.626142,
-  "garage_lng" : 1.032489,
+  "garage_lat" : 32.6242,
+  "garage_lng" : 17.032489,
   "garage_radis_size" : 0.7
 }
 
 ```
 
-- Modifier le script avec vos informations
+- Edit the script with yours informations
 	- Client id
 	- Client secret
 	- Domoticz Url
 	- ...
+
+# Getting Started 
+
+## Token ?
+
+- First time ? You need to launch the script from a web server for getting xee token one time
+- The token is register in the file token.txt
+- The script use this token or ask a new token if is expired automaticali with the refresh_token
+
+## Get access token
+
+/!\ Make sure have all prerequisites of [Domoticz Scripts](https://github.com/T3kstiil3/Domoticz_Scripts/#prerequisites)
+
+Create a vhost on your rpi
+
+````
+#creation of vhost
+sudo nano /etc/apache2/sites-available/xee.local.conf
+````
+
+Edit like this :
+
+````vhost
+<VirtualHost *:80>
+    ServerName xee.local
+
+    ServerAdmin webmaster@localhost
+    DocumentRoot /home/pi/Domoticz_Scripts/xee-car-data-to-domoticz-php
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    <Directory /home/pi/Domoticz_Scripts/xee-car-data-to-domoticz-php/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Require all granted
+        Allow from all
+    </Directory>
+
+</VirtualHost>
+````
+
+````
+# active apache vhost
+sudo a2ensite xee.local.conf
+# reboot aparche service
+sudo service apache2 reload
+# create file and change permision
+sudo nano /home/pi/Domoticz_Scripts/xee-car-data-to-domoticz-php/xee_token.txt
+sudo chmod 777 /home/pi/Domoticz_Scripts/xee-car-data-to-domoticz-php/xee_token.txt
+````
+
+# Informations
+
 - Les informations de la première voiture sont envoyées vers domoticz
 - Il est nécessaire de créer des custom sensor ou autres dans domoticz pour les afficher
 
