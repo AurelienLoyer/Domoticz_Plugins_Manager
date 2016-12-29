@@ -12,7 +12,7 @@ function send_to_domoticz($idx,$svalue,$type=NULL){
     $result = curl_exec($ch);
     echo "- Send value ".$svalue." to device idx ".$idx;
     echo $result;
-    echo "\r\n <br><br>";
+    echo "\r\n";
 }
 
 // CONNECTION VITESSE INTERNET
