@@ -8,6 +8,8 @@
 * @twitter @T3kstiil3
 */
 
+include('inc/functions.php');
+
 // Dev mode ON :)
 $mod_debug = true;
 if($mod_debug){
@@ -21,7 +23,7 @@ $display_result = true;
 $file_config = 'config.json'; // fichier de config
 
 // On recupere le fichier de config et l'ip
-$config = json_decode(file_get_contents($file_config));
+$config = json_decode(file_get_contents($file_config,FILE_USE_INCLUDE_PATH),true);
 
 if(!$config){
 	create_default_config($file_config);
@@ -47,16 +49,16 @@ if($data){
 
 function create_default_config($file_config){
 	$config = '{
-    "country":"FRANCE",
-    "apikey" : "4567890567897890",
-    "town": "LILLE",
-    "lang" : "FR",
-    "IDX_1h" : 200,
-    "IDX_5h" : 201,
-    "IDX_12h" : 202,
-    "IDX_24h" : 203,
-    "domoticz_url" : "127.0.0.1:8080"
-  }';
+		"country":"FRANCE",
+		"apikey" : "4567890567897890",
+		"town": "LILLE",
+		"lang" : "FR",
+		"IDX_1h" : 200,
+		"IDX_5h" : 201,
+		"IDX_12h" : 202,
+		"IDX_24h" : 203,
+		"domoticz_url" : "127.0.0.1:8080"
+  	}';
 	file_put_contents($file_config, $config);
 }
 
@@ -86,11 +88,11 @@ function send_to_domoticz($idx,$svalue,$type=NULL,$nvalue=NULL,$string=NULL){
 	$result = curl_exec($ch);
 
 	if($display_result){
-		echo "<br>";
+		echo "";
 		echo "- Set value ".$svalue." to device idx ".$idx;
-		echo "<br>";
+		echo "";
 		echo $url;
-		echo "<br><br>";
+		echo "";
 		echo $result;
 		echo "\r\n";
 	}
