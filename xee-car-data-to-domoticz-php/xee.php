@@ -194,6 +194,8 @@ function get_xee_data($token){
 		exit();
 	}elseif($data == "domoticz"){
 
+		echo "Send data to Domoticz :<br>";
+
 		//Kilometrage total
 		send_to_domoticz(212,$car_data['Odometer'],0,1);
 

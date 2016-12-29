@@ -13,7 +13,7 @@ Get all car informations with Xee et send all on Domoticz !
 - Create a dev Xee account on https://developer.xee.com/
 - Create a Xee application
 
-![Preview app conf](screen/cap_xee_app_conf)
+![Preview app conf](screen/cap_xee_app_conf.png)
 
 - Note all application informations in a file xee_conf.json like this :
 
@@ -41,11 +41,15 @@ Get all car informations with Xee et send all on Domoticz !
 
 - First time ? You need to launch the script from a web server for getting xee token one time
 - The token is register in the file token.txt
-- The script use this token or ask a new token if is expired automaticali with the refresh_token
+- The script use this token or ask a new token if is expired automatically with the refresh_token
 
 ## Get access token
 
 /!\ Make sure have all prerequisites of [Domoticz Scripts](https://github.com/T3kstiil3/Domoticz_Scripts/#prerequisites)
+
+Edit host on your computer
+
+![Preview host conf](screen/cap_vhost_conf.png)
 
 Create a vhost on your rpi
 
@@ -85,6 +89,14 @@ sudo service apache2 reload
 sudo nano /home/pi/Domoticz_Scripts/xee-car-data-to-domoticz-php/xee_token.txt
 sudo chmod 777 /home/pi/Domoticz_Scripts/xee-car-data-to-domoticz-php/xee_token.txt
 ````
+
+# Test 
+
+Time to test !
+Go http://xee.local/xee.php
+And after Xee login and redirect 
+Go http://xee.local/xee.php?data=car
+Enjoy ! :D
 
 # Informations
 
