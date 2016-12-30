@@ -1,0 +1,26 @@
+{
+    "versions" : "1.0.0",
+    "description": "Additional plugins/scripts for Domoticz",
+    "plugins" : [
+        {
+            "name":"Get Rain Proballity",
+            "folder":"get_rain_probability-php",
+            "version":"1.0.0"
+        },
+        {
+            "name":"Internet Stat",
+            "folder":"internet-stat-domoticz-php",
+            "version":"1.0.0"
+        },
+        {
+            "name":"Notice public ip change",
+            "folder":"notice-public-ip-change-php",
+            "version":"1.0.0"
+        },
+        {
+            "name":"Xee car data to Domoticz",
+            "folder":"xee-car-data-to-domoticz-php",
+            "version":"1.0.0"
+        }
+    ]
+}
