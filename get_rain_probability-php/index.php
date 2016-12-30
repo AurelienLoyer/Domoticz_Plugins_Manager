@@ -8,7 +8,7 @@
 * @twitter @T3kstiil3
 */
 
-include('inc/functions.php');
+include('app/inc/functions.php');
 
 // Dev mode ON :)
 $mod_debug = true;
