@@ -1,11 +1,15 @@
-# Scripts list
+# Scripts list for Domoticz
+
+All script are in PHP and Python.
+
+Developments are underway ! :D
 
 ### My crontab list
 
 ```crontab
 
 #Every hours
-0 */1 * * * /usr/bin/php5 /home/pi/domoticz_sDomoticz_Scriptscripts/internet-stat-domoticz-php/index.php
+0 */1 * * * /usr/bin/php5 /home/pi/Domoticz_Scripts/internet-stat-domoticz-php/index.php
 
 #Every 10 minutes
 */10 * * * * /usr/bin/php5 /home/pi/Domoticz_Scripts/raspberry-pi-stat-domoticz-php/index.php
@@ -27,10 +31,12 @@
 #install apache for get xee token
 sudo apt-get install apache2 -y
 #install php because cron are php script ;)
-sudo apt-get install php5 libapache2-mod-php5 -y
+sudo apt-get install php5 libapache2-mod-php5 php5-curl -y
 #test install 
 curl 127.0.0.1
 #return somethink like : <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+#add www-data permission to Domoticz_Scripts folder
+sudo chown -R www-data /home/pi/Domoticz_Scripts/
 ````
 
 ## Internet state

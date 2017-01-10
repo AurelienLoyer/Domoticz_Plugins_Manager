@@ -23,8 +23,8 @@ $file_config = 'config.json'; // fichier de config
 $free_url = 'https://smsapi.free-mobile.fr/sendmsg'; // url free api
 
 // On recupere le fichier de config et l'ip
-$config = json_decode(file_get_contents($file_config));
-$old_ip = file_get_contents($file_ip);
+$config = json_decode(file_get_contents($file_config,FILE_USE_INCLUDE_PATH));
+$old_ip = file_get_contents($file_ip,FILE_USE_INCLUDE_PATH);
 $current_ip = file_get_contents("http://ipecho.net/plain");
 
 if(!$config){

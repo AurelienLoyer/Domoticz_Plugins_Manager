@@ -21,7 +21,7 @@ if($mod_debug){
 	ini_set("display_errors", 1); // On affiche les erreurs php
 }
 
-$display_result = false;
+$display_result = true;
 
 // Réglages xee api
 $actual_link = "http://$_SERVER[HTTP_HOST]".parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
