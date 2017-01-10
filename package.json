@@ -1,0 +1,12 @@
+{
+  "name": "domoticz-plugins-manager",
+  "version": "0.1.0",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-server-livereload": "^1.9.2",
+    "gulp-webserver": "^0.9.1"
+  },
+  "scripts": {
+    "dev-server": "gulp webserver"
+  }
+}
