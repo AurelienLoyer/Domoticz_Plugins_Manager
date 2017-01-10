@@ -1,0 +1,117 @@
+:host {
+  display: block;
+  width: 456px;
+  margin: 0 16px 16px;
+  background: white;
+}
+
+#content {
+  border: 1px solid #e5e5e5;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+  padding: 10px 16px 0;
+}
+
+img {
+  width: 456px;
+  height: 220px;
+  background: #673AB7;
+  border: 0;
+}
+
+p {
+  margin: 0;
+  line-height: 130%;
+  margin: 0 16px 16px;
+}
+
+#el {
+  cursor: pointer;
+}
+
+#el-graphic {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  background: #ccc;
+  border-radius: 3px 3px 0 0;
+  overflow: hidden;
+}
+
+#el-package package-symbol {
+  margin: 0 15px 0 0;
+}
+
+.meta {
+  @apply(--paper-font-caption);
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-color: var(--divider-color);
+  padding: 10px 16px;
+}
+
+.meta + .meta {
+  border-top: 0;
+}
+
+.meta:last-child {
+  border-bottom: 0;
+}
+
+#el-menu {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 10px 16px;
+  background: rgba(0,0,0,.1);
+  box-sizing: border-box;
+  transform: translate(0, 20px);
+  transition: var(--material-curve-320);
+  opacity: 0;
+  visibility: hidden;
+}
+
+#el-menu a {
+  display: block;
+  text-align: center;
+}
+
+#el-menu a:hover {
+  color: #fff;
+}
+
+#el-menu iron-icon {
+  margin: -2px 8px 0 0;
+}
+
+#el-graphic:hover #el-menu {
+  visibility: visible;
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+#el-desc {
+  @apply(--paper-font-body1);
+  color: var(--secondary-text-color);
+  margin: 0;
+  padding: 10px 16px;
+  height: 75px;
+}
+
+#el-package {
+  font-weight: 500;
+}
+
+#el-tags iron-icon {
+  margin: 0 15px 0 0;
+  padding: 5px;
+  color: var(--secondary-text-color);
+}
+
+#el-tags tag-link:last-of-type + span {
+  display: none;
+}

@@ -1,0 +1,224 @@
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../cart-item/cart-item.html">
+<link rel="import" href="../catalog-cart/catalog-cart.html">
+
+<dom-module id="app-cart">
+  <style>
+    :host {
+      background: white;
+      @apply(--layout-fit);
+      @apply(--layout);
+      @apply(--layout-vertical);
+    }
+
+    #toolbar {
+      color: #666;
+    }
+
+    #toolbar-title {
+      margin-left: 15px;
+    }
+
+    #download {
+      padding: 16px;
+    }
+
+    #dl code {
+      font-weight: bold;
+      color: #3f51b5;
+    }
+
+    #download h4 {
+      font-size: 14px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    #download > section {
+      margin-bottom: 24px;
+    }
+
+    #download textarea {
+      box-sizing: border-box;
+      display: block;
+      width: 100%;
+      height: 110px;
+      padding: 8px;
+      background: var(--paper-blue-grey-50);
+      border: 1px solid var(--paper-blue-grey-100);
+      border-radius: 2px;
+      font-size: 12px;
+      color: var(--paper-blue-grey-500);
+      resize: none;
+    }
+
+    #download paper-button {
+      background: #e91e63;
+      color: white;
+      margin-top: 10px;
+    }
+
+    paper-tabs {
+      --paper-tabs-selection-bar-color: #304ffe;
+    }
+    paper-tab {
+      --paper-tab-ink: #304ffe;
+    }
+  </style>
+  <template>
+    <catalog-cart id="data" items="{{items}}"></catalog-cart>
+
+    <paper-toolbar id="toolbar">
+      <iron-icon icon="stars"></iron-icon>
+      <span id="toolbar-title" class="flex">My Collection</span>
+      <iron-icon icon="chevron-right" on-tap="close"></iron-icon>
+    </paper-toolbar>
+    <paper-tabs id="tabs" selected="{{_tab}}">
+      <paper-tab name="elements">Elements (<span>[[items.length]]</span>)</paper-tab>
+      <paper-tab name="download">Download</paper-tab>
+    </paper-tabs>
+    <iron-pages selected="[[_tab]]" class="flex">
+      <div id="elements">
+        <template is="dom-repeat" items="[[items]]">
+          <cart-item element="[[item]]" on-remove="_handleRemove"></cart-item>
+        </template>
+      </div>
+      <div id="download">
+        <section>
+          <h4>Download Options</h4>
+
+          <paper-radio-group selected="{{downloadMethod}}" id="dl">
+            <paper-radio-button name="elements">
+              <code>elements folder</code> - the full source for the latest
+              version of all your selected elements
+            </paper-radio-button>
+            <paper-radio-button name="bower">
+              <code>bower.json</code> - just the bower.json file, from which
+              you can run bower install to fetch your elements
+            </paper-radio-button>
+          </paper-radio-group>
+
+          <paper-button raised on-tap="download">Download</paper-button>
+        </section>
+        <section>
+          <h4>Bower Command</h4>
+
+          <p>You can copy the command below and paste it into the terminal to
+          install the elements from your cart into a project that already uses
+          Bower.</p>
+
+          <textarea readonly value="[[_itemsAsBowerCommand(items.*)]]" on-tap="_selectAll"></textarea>
+        </section>
+      </div>
+    </iron-pages>
+  </template>
+</dom-module>
+
+<script>
+Polymer({
+  is: 'app-cart',
+  enableCustomStyleProperties: true,
+  properties: {
+    items: {
+      type: Array,
+      notify: true
+    },
+    downloadMethod: {
+      type: String,
+      value: 'bower'
+    },
+    _tab: {
+      type: Number,
+      value: 0
+    }
+  },
+  log: function() { console.log(arguments); },
+  close: function() {
+    this.fire('cart-close');
+  },
+  add: function(name) {
+    if (this.includes(name)) {
+      this.fire('toast', {text: "Element " + name + " is already in your collection"});
+    } else if (this.$.data.add(name)) {
+      this.fire('toast', {text: "Element " + name + " has been added to your collection"});
+    }
+  },
+  remove: function(name) {
+    if (name.name) name = name.name;
+    this.$.data.remove(name);
+    this.fire('toast', {text: "Element " + name + " has been removed from your collection"});
+  },
+  _hasAny: function(arr) {
+    return arr && (arr > 0);
+  },
+  _handleRemove: function(e) {
+    this.remove(e.currentTarget.element);
+  },
+  includes: function(el) {
+    return this.$.data.includes(el);
+  },
+  _itemsAsDependencies: function() {
+    var out = {};
+    this.items.forEach(function(item) {
+      out[item.name] = item.source + "#" + item.target;
+    });
+    return out;
+  },
+  _itemsAsQueryString: function() {
+    return this.items.map(function(item) {
+      return item.name + "=" + encodeURIComponent(item.source + "#" + item.target);
+    }).join("&");
+  },
+  _itemsAsBowerCommand: function() {
+    return "bower install --save " + this.items.map(function(item) {
+      if (item) {
+        return item.source + "#" + item.target;
+      }
+    }).join(" ");
+  },
+  _selectAll: function(e) {
+    e.currentTarget.select();
+  },
+  bowerString: function() {
+    return JSON.stringify({
+      name: "polymer-project",
+      dependencies: this._itemsAsDependencies()
+    }, null, 2);
+  },
+  zipUrl: function() {
+    return "http://bowerarchiver.appspot.com/archive?" + this._itemsAsQueryString();
+  },
+  download: function() {
+    var link = document.createElement('a');
+    ga('send', 'event', 'download');
+
+    switch (this.downloadMethod) {
+      case 'bower':
+        var blob = new Blob([this.bowerString()], {type: 'application/json'});
+        var url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = 'bower.json';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        break;
+      case 'elements':
+        link.href = this.zipUrl();
+        link.download = 'elements.zip';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        break;
+    }
+  }
+});
+</script>

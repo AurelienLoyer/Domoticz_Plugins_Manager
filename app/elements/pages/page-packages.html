@@ -1,0 +1,72 @@
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
+<link rel="import" href="../catalog-data/catalog-data.html">
+<link rel="import" href="../package-tile/package-tile.html">
+<link rel="import" href="../guide-card/guide-card.html">
+<link rel="import" href="../cart-icon/cart-icon.html">
+
+<dom-module id="page-packages">
+  <link rel="import" type="css" href="page-packages.css">
+  <template>
+    <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+    <catalog-data packages="{{packages}}" guides="{{guides}}"></catalog-data>
+    <paper-header-panel mode="seamed" class="fit">
+      <paper-toolbar class="paper-header">
+        <app-logo full class="flex"></app-logo>
+        <app-bar class="horizontal layout center end-justified" query="{{q}}"></app-bar>
+        <cart-icon></cart-icon>
+      </paper-toolbar>
+
+      <div class="content fit">
+        <div class="packages layout horizontal wrap">
+          <template is="dom-repeat" items="[[packages]]">
+            <a href$="[[_packageLink(item.name)]]" is="app-link" class="package flex-none"><package-tile name$="[[item.name]]"></package-tile></a>
+          </template>
+        </div>
+
+        <div id="guides-container">
+          <h3>Element Guides</h3>
+          <div id="guide-list" class="horizontal layout wrap">
+            <template is="dom-repeat" items="[[guides]]">
+              <a href$="[[_link('guides',item.name)]]" is="app-link"><guide-card guide="[[item.name]]"></guide-card></a>
+            </template>
+            <div id="coming-soon">More guides coming soon, stay tuned!</div>
+          </div>
+        </div>
+      </div>
+    </paper-header-panel>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'page-packages',
+    enableCustomStyleProperties: true,
+    properties: {
+      q: { type: String, notify: true }
+    },
+    attached: function() {
+      // reset page title since this is the default page
+      this.fire('page-meta', {title: null});
+    },
+    observers: [
+      'search(q)'
+    ],
+    search: function(q) {
+      if (q || this.q) {
+        this.router.go('/browse?q=' + (q || this.q));
+      }
+    },
+    _link: function() {
+      return "/" + Array.prototype.slice.call(arguments).join("/");
+    },
+    _packageLink: function(name) {
+      return "/browse?package=" + name;
+    },
+    guideSelect: function(e) {
+      this.router.go('/guides/' + e.currentTarget.guide);
+    }
+  });
+</script>

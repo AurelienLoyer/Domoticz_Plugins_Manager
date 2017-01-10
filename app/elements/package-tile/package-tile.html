@@ -1,0 +1,37 @@
+<link rel="import" href="../catalog-package/catalog-package.html">
+<link rel="import" href="../theme-color/theme-color.html">
+
+<dom-module id="package-tile">
+  <link rel="import" type="css" href="package-tile.css">
+  <template>
+    <catalog-package name="[[name]]" data="{{package}}"></catalog-package>
+    <theme-color id="content" color="[[package.color]]" class="vertical layout" themed themed-border>
+      <span class="version">[[package.version]]</span>
+      <h2 class="symbol">[[package.symbol]]</h2>
+      <h3 class="title" extended$="[[_extendedTitle(package)]]">[[package.title]]</h3>
+      <hr themed-reverse>
+      <p class="tagline">[[package.tagline]]</p>
+    </theme-color>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'package-tile',
+    enableCustomStyleProperties: true,
+    properties: {
+      name: {type: String, notify: true},
+      package: {type: Object}
+    },
+    attached: function() {
+      var tiles = this.parentNode.querySelectorAll('package-tile');
+      var index = Array.prototype.indexOf.call(tiles, this);
+      setTimeout(function() {
+        this.classList.add('active');
+      }.bind(this), (index + 1) * 50);
+    },
+    _extendedTitle: function(p) {
+      if (p.title.length > 20) return true;
+    }
+  });
+</script>

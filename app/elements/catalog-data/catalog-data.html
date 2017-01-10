@@ -1,0 +1,112 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="catalog-data">
+  <template>
+    <iron-ajax id="req" url="../../../plugins.json" method="get" handle-as="json" on-response="_handleResponse"></iron-ajax>
+  </template>
+</dom-module>
+
+<script>
+  (function() {
+    var _data = {};
+    var _els = [];
+
+    var _generateMap = function(list) {
+      var out = {};
+      for (var i = 0; i < list.length; i++) {
+        out[list[i].name] = list[i];
+      }
+      return out;
+    };
+
+    var _setPackageData = function(data) {
+      console.log(data);
+      _data = data || {};
+      if (data) {
+        _data.packageMap = _generateMap(data.packages);
+        _data.elementMap = _generateMap(data.elements);
+        _data.guideMap = _generateMap(data.guides);
+        _data.behaviorMap = {};
+        _data.elements.forEach(function(el) {
+          el.behaviors.forEach(function(be) {
+            _data.behaviorMap[be] = el.name;
+          });
+        });
+      }
+      _els.forEach(function(el){ el.load(_data); });
+    };
+
+    Polymer({
+      is: 'catalog-data',
+      ready: function() {
+        this.load(_data);
+      },
+      attached: function() {
+        if (_els.length === 0 && !_data.packages) { this.$.req.generateRequest(); }
+        _els.push(this);
+      },
+      detached: function() {
+        _els.splice(_els.indexOf(this), 1);
+      },
+      properties: {
+        packages: {
+          type: Array,
+          readOnly: true,
+          notify: true
+        },
+        packageMap: {
+          type: Object,
+          readOnly: true,
+          notify: true
+        },
+        elements: {
+          type: Array,
+          readOnly: true,
+          notify: true
+        },
+        elementMap: {
+          type: Object,
+          readOnly: true,
+          notify: true
+        },
+        guides: {
+          type: Array,
+          readOnly: true,
+          notify: true
+        },
+        guideMap: {
+          type: Object,
+          readOnly: true,
+          notify: true
+        },
+        tags: {
+          type: Object,
+          readOnly: true,
+          notify: true
+        },
+        behaviorMap: {
+          type: Object,
+          readOnly: true,
+          notify: true
+        }
+      },
+      load: function(data) {
+        if (data.packages) {
+          this._setPackages(data.packages);
+          this._setPackageMap(data.packageMap);
+          this._setElements(data.elements);
+          this._setElementMap(data.elementMap);
+          this._setGuides(data.guides);
+          this._setGuideMap(data.guideMap);
+          this._setBehaviorMap(data.behaviorMap);
+          this._setTags(data.tags);
+        }
+      },
+      _handleResponse: function(_, req) {
+        console.log('test');
+        console.log(req);
+        _setPackageData(req.response);
+      }
+    });
+  })();
+</script>

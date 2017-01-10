@@ -1,0 +1,21 @@
+<script>
+Polymer({
+  is: 'app-link',
+  extends: 'a',
+  properties: {
+    skipNav: Boolean
+  },
+  listeners: {
+    'click': 'navigate'
+  },
+  navigate: function(e) {
+    // allow for ctrl+click to open in new window
+    if (e.ctrlKey || e.metaKey) {
+      return true;
+    } else {
+      e.preventDefault();
+      if (!this.skipNav) this.fire('nav', {url: this.href});
+    }
+  }
+});
+</script>
