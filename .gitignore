@@ -9,3 +9,5 @@ xee_token.txt
 xee_conf.json
 
 .DS_Store
+
+/node_modules
