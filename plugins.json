@@ -1,26 +1,77 @@
-{
-    "versions" : "1.0.0",
+{   
+    "version" : "1.0.0",
     "description": "Additional plugins/scripts for Domoticz",
     "plugins" : [
         {
-            "name":"Get Rain Proballity",
+            "title":"Get Rain Proballity",
+            "name":"get_rain_probability-php",
             "folder":"get_rain_probability-php",
-            "version":"1.0.0"
+            "version":"1.0.11",
+            "symbol" : "GRP",
+            "tagline": "Get rain proballity on Domoticz",
+            "color" : "#5BC0DE"
         },
         {
-            "name":"Internet Stat",
+            "title":"Internet Stat",
+            "name":"internet-stat-domoticz-php",
             "folder":"internet-stat-domoticz-php",
-            "version":"1.0.0"
+            "version":"2.0.0",
+            "symbol" : "IS",
+            "tagline": "Internat download, upload, ping to Domoticz",
+            "color" : "#EEA02B"
         },
         {
-            "name":"Notice public ip change",
+            "title":"Notice public ip change",
+            "name":"notice-public-ip-change-php",
             "folder":"notice-public-ip-change-php",
-            "version":"1.0.0"
+            "version":"1.1.0",
+            "symbol" : "NIPC",
+            "tagline": "Notice Domoticz when public ip change",
+            "color" : "#B0163C"
         },
         {
-            "name":"Xee car data to Domoticz",
+            "title":"Xee car data to Domoticz",
+            "name":"xee-car-data-to-domoticz-php",
             "folder":"xee-car-data-to-domoticz-php",
-            "version":"1.0.0"
+            "version":"1.1.3",
+            "symbol" : "XEE",
+            "tagline": "Send Xee data to Domoticz !",
+            "color" : "#41B883"
+        },
+        {
+            "title":"Notice SMS ",
+            "name":"notice-sms-free-api-php",
+            "folder":"notice-sms-free-api-php",
+            "version":"1.1.3",
+            "symbol" : "SMS",
+            "tagline": "Notice SMS with Free api user when ...",
+            "color" : "#B0163C"
+        },
+        {
+            "title":"Printer stat on Domoticz",
+            "name":"printer-stat-domoticz-python",
+            "folder":"printer-stat-domoticz-python",
+            "version":"1.1.3",
+            "symbol" : "PS",
+            "tagline": "Get your printrer stat on Domoticz !",
+            "color" : "#59A228"
+        },
+        {
+            "title":"Save Domoticz Folder",
+            "name":"save-domoticz-folder-php",
+            "folder":"save-domoticz-folder-php",
+            "version":"1.1.3",
+            "symbol" : "SAVE",
+            "tagline": "Save your Domoticz directory !",
+            "color" : "#BFB9B4"
+        },{
+            "title":"Soundtouch Domoticz Python",
+            "name":"soundtouch-domoticz-python",
+            "folder":"soundtouch-domoticz-python",
+            "version":"1.1.3",
+            "symbol" : "ST",
+            "tagline": "Control your Bose Soundtouch on Domoticz !",
+            "color" : "#35495E"
         }
     ]
 }
