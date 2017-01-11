@@ -4,13 +4,12 @@
 <dom-module id="package-tile">
   <link rel="import" type="css" href="package-tile.css">
   <template>
-    <catalog-package name="[[name]]" data="{{package}}"></catalog-package>
-    <theme-color id="content" color="[[package.color]]" class="vertical layout" themed themed-border>
-      <span class="version">[[package.version]]</span>
-      <h2 class="symbol">[[package.symbol]]</h2>
-      <h3 class="title" extended$="[[_extendedTitle(package)]]">[[package.title]]</h3>
+    <theme-color id="content" color="[[plugin.color]]" class="vertical layout" themed themed-border>
+      <span class="version">[[plugin.version]]</span>
+      <h2 class="symbol">[[plugin.symbol]]</h2>
+      <h3 class="title" extended$="[[_extendedTitle(plugin)]]">[[plugin.title]]</h3>
       <hr themed-reverse>
-      <p class="tagline">[[package.tagline]]</p>
+      <p class="tagline">[[plugin.tagline]]</p>
     </theme-color>
   </template>
 </dom-module>
@@ -20,8 +19,7 @@
     is: 'package-tile',
     enableCustomStyleProperties: true,
     properties: {
-      name: {type: String, notify: true},
-      package: {type: Object}
+      plugin: {type: Object}
     },
     attached: function() {
       var tiles = this.parentNode.querySelectorAll('package-tile');
@@ -31,7 +29,7 @@
       }.bind(this), (index + 1) * 50);
     },
     _extendedTitle: function(p) {
-      if (p.title.length > 20) return true;
+      if (p.title && p.title.length > 20) return true;
     }
   });
 </script>

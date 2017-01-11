@@ -12,14 +12,14 @@
     }
 
     a {
-      max-width: 125px;
+      max-width: 280px;
       color: var(--app-logo-color);
       text-transform: none;
       text-decoration: none;
     }
 
     :host([full]) a {
-      max-width: 200px;
+      max-width: 280px;
     }
 
     h1 {
@@ -38,10 +38,10 @@
     }
   </style>
   <template>
-    <a href="/" is="pushstate-anchor" class="horizontal layout center">
+    <a href="/app" is="pushstate-anchor" class="horizontal layout center">
       <img src="./polymer.svg" width="36" alt="Polymer Logo">
-      <h1 hidden$="[[!full]]">Polymer Catalog</h1>
-      <h1 hidden$="[[full]]">Catalog</h1>
+      <h1 hidden$="[[!full]]">Domoticz Plugins Manager</h1>
+      <h1 hidden$="[[full]]">Plugins</h1>
     </a>
   </template>
 </dom-module>
