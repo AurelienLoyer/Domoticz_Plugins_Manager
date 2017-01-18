@@ -4,6 +4,17 @@ All script are in PHP and Python.
 
 Developments are underway ! :D
 
+## Domoticz Plugins Manager 
+
+### Preview
+[![Preview img](app/img/screen_1.png)](https://github.com/T3kstiil3/Domoticz_Scripts/tree/master/app)
+
+### Dev
+
+Use Polymer !
+
+## Scripts Informations
+
 ### My crontab list
 
 ```crontab
