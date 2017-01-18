@@ -1,0 +1,75 @@
+paper-header-panel {
+  background: #fafafa;
+}
+
+.content {
+  display: block;
+  padding: 50px 0;
+}
+
+.packages, #guides-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+cart-icon {
+  margin-left: 8px;
+}
+
+@media (max-width: 1132px) {
+  .packages, #guides-container {
+    max-width: 880px;
+  }
+}
+
+@media (max-width: 912px) {
+  .packages, #guides-container {
+    max-width: 660px;
+  }
+}
+
+@media (max-width: 692px) {
+  .packages, #guides-container {
+    max-width: 440px;
+  }
+}
+
+a.package {
+  width: 220px;
+  margin: 8px;
+}
+
+@media (max-width: 489px) {
+  a.package {
+    width: calc(100% - 16px);
+  }
+}
+
+.search.active {
+  left: 15px;
+}
+
+guide-card, #coming-soon {
+  width: 456px;
+  cursor: pointer;
+  margin: 8px;
+}
+
+@media (max-width: 489px) {
+  guide-card, #coming-soon {
+    width: 100%;
+  }
+}
+
+#guides-container h3 {
+  margin: 36px 8px 8px;
+}
+
+#coming-soon {
+  cursor: default;
+  line-height: 76px;
+  text-align: center;
+  font-size: 16px;
+  color: rgba(0, 0, 0, var(--dark-primary-opacity));
+  border: 1px dashed #e5e5e5;
+}
