@@ -11,7 +11,8 @@
 <link rel="import" href="../app-bar/app-bar.html">
 <link rel="import" href="../app-sidebar/app-sidebar.html">
 
-<link rel="import" href="../pages/page-packages.html">
+<link rel="import" href="../pages/page-home.html">
+<link rel="import" href="../pages/page-plugins.html">
 <!--<link rel="import" href="../pages/page-browse.html">
 <link rel="import" href="../pages/page-element.html">
 <link rel="import" href="../pages/page-guide.html">-->
@@ -33,11 +34,14 @@
     <paper-drawer-panel id="cartpanel" class="flex" force-narrow right-drawer disable-edge-swipe disable-swipe drawer-width="320px">
       <div id="main"  main>
         <app-router id="router" class="flex" mode="hash" on-activate-route-end="trackPageview">
-          <app-route path="/" element="page-packages" bindRouter></app-route>
-          <app-route path="/browse" element="page-browse" bindRouter onUrlChange="updateModel"></app-route>
-          <app-route path="/elements/:element" element="page-element" bindRouter onUrlChange="updateModel"></app-route>
-          <app-route path="/guides/:name" element="page-guide" bindRouter></app-route>
-          <app-route path="*" element="page-not-found"></app-route>
+          <app-route prefix="" path="/home" element="page-home" bindRouter></app-route>
+          <app-route prefix="" path="/" element="page-home" bindRouter></app-route>
+          <app-route prefix="" path="/plugins/" element="page-plugins" bindRouter></app-route>
+          <app-route prefix="" path="/plugins/:name" element="page-plugins" bindRouter></app-route>
+          <app-route prefix="" path="/app/browse" element="page-browse" bindRouter onUrlChange="updateModel"></app-route>
+          <app-route prefix="" path="/app/elements/:element" element="page-element" bindRouter onUrlChange="updateModel"></app-route>
+          <app-route prefix="" path="/app/guides/:name" element="page-guide" bindRouter></app-route>
+          <app-route prefix="" path="*" element="page-not-found"></app-route>
         </app-router>
       </div>
       <app-cart id="cart" drawer></app-cart>
@@ -96,7 +100,8 @@
       this.async(this._toast.show.bind(this._toast), 1);
     },
     trackPageview: function(e, detail) {
-      
+      console.log(e);
+      console.log(detail);
     }
   });
 </script>
