@@ -1,0 +1,39 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="plugins-data">
+  <template>
+    <iron-ajax id="requestPlugins" url="../../../plugins.json" method="get" handle-as="json" on-response="handleResponse"></iron-ajax>
+  </template>
+</dom-module>
+
+<script>
+  (function() {
+    
+    Polymer({
+      is: 'plugins-data',
+      properties: {
+        description : {
+          type : String,
+          notify: true
+        },
+        version: {
+          type: String,
+          notify: true
+        },
+        plugins: {
+          type: Array,
+          notify: true
+        }
+      },
+      ready: function () {
+        this.$.requestPlugins.generateRequest();
+      },
+      handleResponse: function (data) {
+        this.plugins = data.detail.response.plugins;
+        this.description = data.detail.response.description;
+        this.version = data.detail.response.plugins;
+      }
+    });
+
+  })();
+</script>

@@ -1,0 +1,44 @@
+<dom-module id="plugin-symbol">
+  <style>
+    :host {
+      display: block;
+      line-height: 34px;
+      width: 34px;
+      height: 34px;
+      background: #ccc;
+      text-align: center;
+      font-weight: 500;
+      font-size: 12px;
+      color: #fff;
+      outline: none;
+      margin-right: 10px;
+    }
+
+    :host(.large) {
+      line-height: 64px;
+      width: 64px;
+      height: 64px;
+      font-size: 30px;
+    }
+  </style>
+  <template>
+    <div style$="[[_getComputedStyle(color)]]">
+      <span>[[symbol]]</span>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'plugin-symbol',
+    properties: {
+      symbol: String,
+      color: String
+    },ready : function(){
+      console.log(this.color);
+    },
+    _getComputedStyle: function(color) {
+      return 'background-color: ' + color + ';';
+    } 
+  });
+</script>
