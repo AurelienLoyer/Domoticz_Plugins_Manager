@@ -11,9 +11,9 @@
   <link rel="import" type="css" href="page-packages.css">
   <template>
     <style include="iron-flex iron-flex-alignment iron-positioning"></style>
-    <!--<catalog-data></catalog-data>-->
+    <catalog-data description="{{description}}" plugins="{{plugins}}" version="{{version}}"></catalog-data>
 
-    <iron-ajax id="requestPlugins" url="../../../plugins.json" method="get" handle-as="json" on-response="handleResponse"></iron-ajax>
+    <!--<iron-ajax id="requestPlugins" url="../../../plugins.json" method="get" handle-as="json" on-response="handleResponse"></iron-ajax>-->
     
     <paper-header-panel mode="seamed" class="fit">
       
@@ -25,7 +25,7 @@
 
       <div class="content fit">
         <div class="packages layout horizontal wrap">
-          <template is="dom-repeat" items="{{plugins}}">
+          <template is="dom-repeat" items="[[plugins]]">
             <a href$="[[_packageLink(item.name)]]" is="app-link" class="package flex-none">
               <package-tile plugin$="[[item]]"></package-tile>
             </a>
@@ -41,27 +41,19 @@
   Polymer({
     is: 'page-packages',
     ready: function () {
-      this.$.requestPlugins.generateRequest();
+      //console.log(this.plugins);
+      //this.$.requestPlugins.generateRequest();
     },
-    handleResponse: function (data) {
+    /*handleResponse: function (data) {
       this.plugins = data.detail.response.plugins;
       this.description = data.detail.response.description;
       this.version = data.detail.response.plugins;
       console.log(this.plugins);
-    },
+    },*/
     enableCustomStyleProperties: true,
     properties: {
       q: { 
         type: String, notify: true 
-      },
-      description : {
-        type : String
-      },
-      version: {
-        type: String
-      },
-      plugins: {
-        type: Array
       }
     },
     attached: function() {
@@ -80,7 +72,7 @@
       return "/" + Array.prototype.slice.call(arguments).join("/");
     },
     _packageLink: function(name) {
-      return "/browse?package=" + name;
+      return "/app/plugins/" + name;
     }
   });
 </script>
