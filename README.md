@@ -6,6 +6,8 @@ Developments are underway ! :D
 
 ## Domoticz Plugins Manager 
 
+Web interface for manage all scripts and configs
+
 ### Preview
 [![Preview img](app/img/screen_1.png)](https://github.com/T3kstiil3/Domoticz_Scripts/tree/master/app)
 
@@ -81,7 +83,7 @@ Retrieve information from your precious Xee case and send them to Domoticz !
 
 # TODO
 
-- [ ] Web interface for manage all scripts and configs
+- [ ] Web interface for manage all scripts and configs
 - [ ] News scripts
 
 ### Notice public IP change

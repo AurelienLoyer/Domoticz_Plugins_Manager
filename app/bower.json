@@ -35,6 +35,7 @@
     "paper-button": "PolymerElements/paper-button#^1.0.14",
     "color": "^3.0.4",
     "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
-    "app-router": "github.com/blasten/app-router#^2.7.2"
+    "app-router": "github.com/blasten/app-router#^2.7.2",
+    "paper-spinner": "PolymerElements/paper-spinner#^1.2.1"
   }
 }
