@@ -272,3 +272,11 @@ app-sidebar paper-toolbar {
 [view=table] #element-cards {
   display: none;
 }
+
+paper-spinner{
+  display: block;
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  margin: 15% 50%;
+}

@@ -37,7 +37,7 @@
           <app-route prefix="" path="/home" element="page-home" bindRouter></app-route>
           <app-route prefix="" path="/" element="page-home" bindRouter></app-route>
           <app-route prefix="" path="/plugins/" element="page-plugins" bindRouter></app-route>
-          <app-route prefix="" path="/plugins/:name" element="page-plugins" bindRouter></app-route>
+          <app-route prefix="" path="/plugins/:pluginName" element="page-plugins" bindRouter></app-route>
           <app-route prefix="" path="/app/browse" element="page-browse" bindRouter onUrlChange="updateModel"></app-route>
           <app-route prefix="" path="/app/elements/:element" element="page-element" bindRouter onUrlChange="updateModel"></app-route>
           <app-route prefix="" path="/app/guides/:name" element="page-guide" bindRouter></app-route>
@@ -102,8 +102,8 @@
       this.async(this._toast.show.bind(this._toast), 1);
     },
     trackPageview: function(e, detail) {
-      console.log(e);
-      console.log(detail);
+      //console.log(e);
+      //console.log(detail);
     }
   });
 </script>

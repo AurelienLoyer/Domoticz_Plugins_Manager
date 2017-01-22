@@ -5,6 +5,8 @@
 <link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+
 
 <link rel="import" href="../app-sidebar/app-sidebar.html">
 <link rel="import" href="../app-logo/app-logo.html">
@@ -68,22 +70,24 @@
     <paper-header-panel id="container" mode="[[_getMode(narrowMode)]]" view$="[[_actualView(view)]]" main>
         <div class="paper-header">
         <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-        <h2 class="flex">[[pageTitle]]</h2>
-        <paper-icon-button class="toggleViewButton" icon="[[viewIcon]]" on-tap="toggleView" hidden$="[[_forceCards]]"></paper-icon-button>
-        <cart-icon class="cartButton" id="cart-toggle" icon="stars" on-tap="cartOpen"></cart-icon>
+          <h2 class="flex">[[pageTitle]]</h2>
         </div>
         <div id="content">
-        <div id="package-heading" hidden$="[[!packageInfo]]">
-            <div class="description">[[packageInfo.description]]</div>
+          
+          <div id="package-heading" hidden$="[[!plugin.version]]">
+              <div class="version">[[plugin.version]]</div>
+              <div class="description">[[plugin.description]]</div>
+          </div>
+
+          <template is="dom-if" if="[[plugin.config]]" restamp>
+              <element-table color="[[_getColor(plugin)]]" elements="[[plugin.config]]"></element-table>
+          </template>
         </div>
 
-        <template is="dom-if" if="[[_stampCards(view)]]" restamp>
-            <element-table-cards id="element-cards" elements="[[_filteredElements]]"></element-table-cards>
+        <template if="[[loader]]">
+          <paper-spinner  class="multi" active></paper-spinner>
         </template>
-        <template is="dom-if" if="[[_stampTable(view)]]" restamp>
-            <element-table color="[[_getColor(packageInfo)]]" elements="[[_filteredElements]]" on-tag-selected="updateTag"></element-table>
-        </template>
-        </div>
+
     </paper-header-panel>
     </paper-drawer-panel>
   </template>
@@ -96,6 +100,7 @@
       is: 'page-plugins',
       enableCustomStyleProperties: true,
       properties: {
+        loader : {type: Boolean, value: true},
         router: Object,
         pageTitle: {type: String},
 
@@ -104,24 +109,18 @@
         tag: {type: String, notify: true, value: ''},
         package: {type: String, notify: true, value: ''},
         view: {type: String, notify: true},
-
-        tagList: {type: Array, computed: 'arrayParam(tag)', value: function() { return []; }},
-        packageList: {type: Array, computed: 'arrayParam(package)', value: function() { return []; }},
-
+        
         viewIcon: {type: String, computed: 'computeViewIcon(view)', value: 'view-module'},
-        packages: Array,
-        packageInfo: {type: Object, value: {}},
-        elements: Array,
-
+        
         _filteredElements: Array,
         _elementCount: Number,
         _forceCards: {type: Boolean},
 
-        plugins : Array
+        plugins : {type: Array, notify: true, observer: '_pluginsLoad'},
+        plugin : Object,
       },
       observers: [
-        'updateURL(q,package, tag, view, elements)',
-        'updateMeta(package, packageInfo)',
+        'updateURL(q,pluginName)',
         'scrollToTop(package)'
       ],
       listeners: {
@@ -131,7 +130,6 @@
       ready: function() {
         this.view = this._forceCards ? 'cards' : 'table';
       },
-
       filter: function(element) {
         if (this.q && this.q.length && element.name.indexOf(this.q) < 0) {
           return false;
@@ -216,22 +214,45 @@
           });
         }
       },
-      updateURL: function(q, packageName, packageInfo, tag, view) {
+      _pluginsLoad : function(plugins){
+        this.plugins = plugins;
+        this.loadPage();
+      },
+      updateURL: function(q,pluginName) {
+       
         var qs = this._buildQueryString();
         if (qs !== _lastNavigated && this.router) {
           _lastNavigated = qs;
           this.router.go('/browse' + (qs.length ? '?' + qs : ''), {replace: true});
         }
-        this.updateMeta(packageName, this.packageInfo);
-
-        if (this.elements) {
-          this._filteredElements = this.elements.filter(this.filter.bind(this));
-          this._elementCount = this._filteredElements.length;
+        if (this.plugins) {
+          console.log(this.plugins);
+          //this._filteredElements = this.elements.filter(this.filter.bind(this));
+          //this._elementCount = this._filteredElements.length;
         }
         this.scrollToTop();
+        this.loadPage();
       },
-      updateMeta: function(packageName, packageInfo) {
-        if (this.q && this.q.length) {
+      loadPage : function(){
+        this.loader = true;
+        if(this.pluginName && this.plugins){
+          this.plugin = this.plugins.filter(plugin => {
+            return plugin.name == this.pluginName;
+          })[0];
+          this.pageTitle = "Plugin : "+this.plugin.title;
+          console.log(this.plugin);
+          this.loader = false;
+        }else{
+          this.pageTitle = "All Elements";
+          this.loader = false;
+        }
+        this.$.drawerPanel.closeDrawer();
+        this.loader = false;
+      },
+      updateMeta: function(plugin, pluginInfo) {
+        //console.log(plugin);
+        //console.log(pluginInfo);
+        /*if (this.q && this.q.length) {
           var t = "'" + this.q + "' ";
           t += (packageInfo && packageInfo.title) ? packageInfo.title : "Elements";
           this.pageTitle = t;
@@ -241,8 +262,8 @@
           this.pageTitle = "Elements Tagged '" + this.tagList.join("' or '") + "'";
         } else {
           this.pageTitle = "All Elements";
-        }
-
+        }*/
+        this.pageTitle = "All Elements";
         this.fire('page-meta', { title: this.pageTitle });
         this.$.drawerPanel.closeDrawer();
       },
@@ -291,7 +312,7 @@
         return a === b;
       },
       _getColor: function() {
-        return this.packageInfo && this.packageInfo.color ? this.packageInfo.color : '';
+        return this.plugin && this.plugin.color ? this.plugin.color : '';
       },
 
       _getMode: function(narrow) {
