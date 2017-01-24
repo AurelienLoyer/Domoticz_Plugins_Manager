@@ -1,0 +1,32 @@
+{
+  "Client_Id" : {
+		"type" : "string",
+		"default" : true,
+		"description" : "Xee client id"
+	},
+  "Client_secret" : {
+		"type" : "string",
+		"default" : true,
+		"description" : "Xee client secret"
+	},
+  "domoticz_url" : {
+		"type" : "string",
+		"default" : "127.0.0.1:8080",
+		"description" : "Your domoticz ip"
+	},
+  "garage_lat" : {
+		"type" : "number",
+		"default" : 51.62,
+		"description" : "Your garage/place lat"
+	},
+  "garage_lng" : {
+		"type" : "number",
+		"default" : 3.03,
+		"description" : "Your garage/place lng"
+	},
+  "garage_radis_size" : {
+		"type" : "number",
+		"default" : 0.7,
+		"description" : "Your garage/place radius"
+	}
+}

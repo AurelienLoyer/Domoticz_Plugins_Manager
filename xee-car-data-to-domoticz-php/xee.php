@@ -26,7 +26,7 @@ $display_result = true;
 // Réglages xee api
 $actual_link = "http://$_SERVER[HTTP_HOST]".parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 $file_token = 'xee_token.txt'; //fichier pour le token xee
-$file_conf = 'xee_conf.json'; //fichier pour la conf xee
+$file_conf = 'config.json'; //fichier pour la conf xee
 // On recupere les fichier token & conf
 //$file_token = str_replace('xee.php','',$actual_link).$file_token;
 //$file_conf = str_replace('xee.php','',$actual_link).$file_conf;

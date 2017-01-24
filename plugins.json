@@ -36,7 +36,8 @@
             "version":"1.1.3",
             "symbol" : "XEE",
             "tagline": "Send Xee data to Domoticz !",
-            "color" : "#41B883"
+            "color" : "#41B883",
+            "description" : "Get all car informations with Xee et send all on Domoticz !"
         },
         {
             "title":"Notice SMS ",

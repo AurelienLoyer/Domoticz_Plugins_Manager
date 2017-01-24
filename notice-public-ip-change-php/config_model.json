@@ -1,0 +1,71 @@
+{
+	"active": {
+		"type" : "boolean",
+		"default" : true,
+		"description" : "Enable / Disable all notif"
+	},
+	"notice_free": {
+		"type" : "section",
+		"name" : "Notice Free Settings",
+		"description" : "",
+		"values" :{
+			"active": {
+				"type" : "boolean",
+				"default" : false,
+				"description": "Enable / Disable SMS notif"
+			},
+			"user": {
+				"type" : "string",
+				"default" : "",
+				"description": "API FREE user"
+			},
+			"pass": {
+				"type" : "string",
+				"default" : "",
+				"description": "API FREE user"
+			},
+			"msg": {
+				"type" : "string",
+				"default" : "[ALERTE DOMOTIQUE] IP Publique change to -> %IP%",
+				"description": "API FREE send message, keep %IP% in your message"
+			}
+		}
+	},
+	"notice_mail":{
+		"type" : "section",
+		"name" : "Notice Email Settings",
+		"description" : "",
+		"values" :{
+			"active": {
+				"type" : "boolean",
+				"default" : false,
+				"description": "Enable / Disable Email notif"
+			},
+			"from": {
+				"type" : "string",
+				"default" : "domoticz@no-reply.fr",
+				"description": "Mail from"
+			},
+			"subject" : {
+				"type" : "string",
+				"default" : "[ALERTE DOMOTIQUE]",
+				"description": "Mail subject"
+			},
+			"mail_to": {
+				"type" : "string",
+				"default" : "youremail@toto.com",
+				"description": "Mail subject"
+			},
+			"msg": {
+				"type" : "string",
+				"default" : "[ALERTE DOMOTIQUE] IP Publique change to -> %IP%",
+				"description": "API FREE send message, keep %IP% in your message"
+			}
+		}
+	},
+	"notice_domoticz":{
+		"active": true,
+		"domoticz_url": "127.0.0.1:8080",
+		"widget_id" : 401
+	}
+}
