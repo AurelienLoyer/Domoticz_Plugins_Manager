@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 
 
 <link rel="import" href="../app-sidebar/app-sidebar.html">
@@ -15,6 +16,9 @@
 
 <link rel="import" href="../plugins-data/plugins-data.html">
 <link rel="import" href="../plugin-symbol/plugin-symbol.html">
+
+<link rel="import" href="../plugin-config/plugin-config.html">
+
 <link rel="import" href="../tag-link/tag-link.html">
 <link rel="import" href="../theme-color/theme-color.html">
 <link rel="import" href="../element-action-menu/element-action-menu.html">
@@ -70,18 +74,32 @@
     <paper-header-panel id="container" mode="[[_getMode(narrowMode)]]" view$="[[_actualView(view)]]" main>
         <div class="paper-header">
         <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-          <h2 class="flex">[[pageTitle]]</h2>
+          <h2 class="flex">
+            [[pageTitle]] 
+            <template is="dom-if" if="{{plugin.version}}">
+              <i>v[[plugin.version]]</i>
+            </template>
+          </h2>
+          <template is="dom-if" if="[[plugin.version]]">
+            <paper-toggle-button>Activate</paper-toggle-button>
+          </template>
         </div>
+
         <div id="content">
-          
-          <div id="package-heading" hidden$="[[!plugin.version]]">
-              <div class="version">[[plugin.version]]</div>
+          <div id="plugin-heading" hidden$="[[!plugin.version]]">
               <div class="description">[[plugin.description]]</div>
           </div>
 
-          <template is="dom-if" if="[[plugin.config]]" restamp>
-              <element-table color="[[_getColor(plugin)]]" elements="[[plugin.config]]"></element-table>
+          <template is="dom-if" if="[[plugin.version]]">
+              <plugin-config color="[[_getColor(plugin)]]" plugin="[[plugin]]"></plugin-config>
+              <!--<element-table color="[[_getColor(plugin)]]" elements="[[plugin.config_model]]"></element-table>-->
           </template>
+
+          <template is="dom-if" if="[[readme]]">
+            <div>Load readme</div>
+            <paper-spinner class="multi" active></paper-spinner>
+          </template>
+
         </div>
 
         <template if="[[loader]]">
@@ -118,6 +136,8 @@
 
         plugins : {type: Array, notify: true, observer: '_pluginsLoad'},
         plugin : Object,
+
+        readme : {type: String, notify: true, value: null}
       },
       observers: [
         'updateURL(q,pluginName)',
@@ -226,7 +246,7 @@
           this.router.go('/browse' + (qs.length ? '?' + qs : ''), {replace: true});
         }
         if (this.plugins) {
-          console.log(this.plugins);
+          //console.log(this.plugins);
           //this._filteredElements = this.elements.filter(this.filter.bind(this));
           //this._elementCount = this._filteredElements.length;
         }
@@ -240,11 +260,14 @@
             return plugin.name == this.pluginName;
           })[0];
           this.pageTitle = "Plugin : "+this.plugin.title;
-          console.log(this.plugin);
           this.loader = false;
+          document.title = this.plugin.title + " - Domoticz Plugins Manager";
+          this.readme = null;
         }else{
+          document.title = "Domoticz Plugins Manager";
           this.pageTitle = "All Elements";
           this.loader = false;
+          this.readme = "toto";
         }
         this.$.drawerPanel.closeDrawer();
         this.loader = false;
@@ -312,7 +335,8 @@
         return a === b;
       },
       _getColor: function() {
-        return this.plugin && this.plugin.color ? this.plugin.color : '';
+        var color = this.plugin && this.plugin.color ? this.plugin.color : '';
+        return color;
       },
 
       _getMode: function(narrow) {

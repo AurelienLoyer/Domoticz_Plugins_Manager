@@ -25,6 +25,17 @@ a {
   @apply(--layout-flex);
 }
 
+.paper-header h2 i{
+  font-size: small;
+}
+
+.paper-header paper-toggle-button{
+  margin-right: 12px;
+  border: 2px solid #e5e5e5;
+  padding: 10px;
+  border-radius: 3px;
+}
+
 .paper-header .toggleViewButton {
   --paper-icon-button-ink-color: transparent;
 }
@@ -48,6 +59,8 @@ app-bar .menu-icon {
   color: #424242;
 }
 
+
+
 .elements-title iron-icon, .elements-title cart-icon {
   cursor: pointer;
   margin-left: 16px;
@@ -57,18 +70,18 @@ app-bar .menu-icon {
   margin: 0 16px 0 0;
 }
 
-#package-heading .description {
+#plugin-heading .description {
   font-size: 16px;
   color: var(--paper-grey-600);
 }
 
 #element-cards, element-table,
-.elements-title, #package-heading {
+.elements-title, #plugin-heading {
   max-width: 920px;
   margin: 20px auto;
 }
 
-#package-heading {
+#plugin-heading {
   margin: 0px auto 16px;
 }
 
