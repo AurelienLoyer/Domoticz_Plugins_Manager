@@ -1,32 +1,44 @@
 {
   "Client_Id" : {
-		"type" : "string",
-		"default" : true,
-		"description" : "Xee client id"
+		"type" : "text",
+		"label" : "Xee client id",
+		"default" : "avdsqdlk98z",
+		"required" : true,
+		"description" : "Xee client id Aliquam ut lorem et augue ornare porta. Praesent ac risus a tortor commodo posuere vitae id dui. Interdum et malesuada fames ac ante ipsum primis in faucibus."
 	},
   "Client_secret" : {
-		"type" : "string",
-		"default" : true,
-		"description" : "Xee client secret"
+		"type" : "text",
+		"label" : "Xee client secret",
+		"default" : "dsqKAd981sdq",
+		"required" : true,
+		"description" : "Xee client secret Aliquam ut lorem et augue ornare porta. Praesent ac risus a tortor commodo posuere vitae id dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Interdum et malesuada fames ac ante ipsum primis in faucibus."
 	},
   "domoticz_url" : {
-		"type" : "string",
+		"type" : "text",
+		"label" : "Your domoticz ip",
 		"default" : "127.0.0.1:8080",
-		"description" : "Your domoticz ip"
+		"required" : true,
+		"description" : "Your domoticz ip Aliquam ut lorem et augue ornare porta. Praesent ac risus a tortor commodo posuere vitae id dui. Interdum et malesuada"
 	},
   "garage_lat" : {
 		"type" : "number",
+		"label" : "latitude",
 		"default" : 51.62,
+		"required" : false,
 		"description" : "Your garage/place lat"
 	},
   "garage_lng" : {
 		"type" : "number",
+		"label" : "longitude",
 		"default" : 3.03,
+		"required" : false,
 		"description" : "Your garage/place lng"
 	},
   "garage_radis_size" : {
 		"type" : "number",
+		"label" : "radius",
 		"default" : 0.7,
+		"required" : false,
 		"description" : "Your garage/place radius"
 	}
 }
