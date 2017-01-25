@@ -1,0 +1,197 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+
+<dom-module id="plugin-config">
+  <template id="container">
+    <style>
+      :host {
+        display: block;
+        position: relative;
+        background: white;
+        border: 1px solid #d0d0d0;
+        border-radius: 3px;
+        opacity: 1;
+        transition: opacity 0.4s;
+      }
+
+      :host(.hidden) {
+        transition: none;
+        opacity: 0;
+      }
+
+      .header {
+        padding: 0 24px;
+        line-height: 56px;
+        font-size: 12px;
+        font-weight: 500;
+        border-bottom: 1px solid #e5e5e5;
+        color: white;
+      }
+
+      .header .name,.row .name{
+        display: inline-block;
+        width: 80%;
+      }
+      .header .value,.row .value{
+        display: inline-block;
+        width: auto;
+      }
+
+      .row .value paper-input{
+        width: 200px;
+        margin-bottom: 12px;
+      }
+
+      .row.config{
+        color: #424242;
+        margin-left: 1%;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      .row.config .description{
+        display: block;
+        width: 70%;
+        margin-top: 10px;
+        margin-left: 5%;
+        font-size: small;
+      }
+
+      .row.config .name{
+        padding-top: 10px;
+      }
+
+      .row.config.validate{
+        text-align: right;
+      }
+
+      .validate_config{
+        margin: 20px;
+        color: white;
+      }
+
+      iron-icon{
+        color: white;
+      }
+
+      #toast_error {
+        --paper-toast-background-color: #F44336;
+        --paper-toast-color: white;
+      }
+
+    </style>
+
+    <iron-ajax id="requestConfigModel" url="../../{{plugin.folder}}/config_model.json" method="get" handle-as="json" on-response="_onConfigModel"></iron-ajax>
+    <iron-ajax id="requestConfig" url="../../{{plugin.folder}}/config.json" method="get" handle-as="json" on-response="_onConfig"></iron-ajax>
+    <iron-ajax id="saveConfig" url="../../{{plugin.folder}}/config.json" method="post" handle-as="json" on-response="_configSave"></iron-ajax>
+
+
+    <div class="header" style$="[[_getHeaderStyle(color)]]">
+      <div class="name">Key <span class="narrow">/ Description</span></div>
+      <div class="value">Value</div>
+    </div>
+
+    <form is="iron-form" id="form">
+      <template is="dom-repeat" items="[[_toArray(model)]]">
+        <div class="row config" data-index$="[[index]]">
+          <div class="name">
+            [[item.name]]
+            <span class="description">[[item.value.description]]</span>
+          </div>
+          <div class="value">
+            <paper-input name="[[item.name]]" pattern="[[item.value.pattern]]" required="[[item.value.required]]" value="{{_getConfigValue(item.name)}}" required label="[[item.value.label]]" placeholder="[[item.value.default]]" error-message="Wrong data !"></paper-input>
+          </div>
+        </div>
+      </template>
+    </form>
+    
+    <div class="row config validate">
+      <paper-button on-click="_saveConfig" raised class="validate_config" style$="[[_getHeaderStyle(color)]]"><iron-icon icon="save"></iron-icon> Save</paper-button>
+    </div>
+
+    <paper-toast id="toast_result" text="This toast auto-closes after 3 seconds" ></paper-toast>
+    <paper-toast id="toast_error" text="This toast auto-closes after 3 seconds" ></paper-toast>
+    <script> toast_result.fitInto = container; </script>
+    <script> toast_error.fitInto = container; </script>
+    
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'plugin-config',
+
+    properties: {
+      plugin: {
+        type: Object,
+        notify: true,
+        observer: '_pluginChanged'
+      },
+      color: {
+        type: String,
+        notify: true
+      },
+      model : {
+        type : Object,
+        value : null
+      },
+      config : {
+        type : Object,
+        value : null
+      }
+    },
+
+    _saveConfig : function(event){
+      if(this.$.form.validate()){
+        this.$.toast_result.show({text: 'Save in progress...', duration: 1000});
+        var data = this.$.form.serialize();
+        console.log(data);
+      }else{
+        this.$.toast_error.show({text: 'Missing data ! :O', duration: 2000});
+        var data = this.$.form.serialize();
+      }
+      
+    },
+
+    _configSave : function(data){
+      this.$.toast_result.show({text: data.detail.response, duration: 3000});
+    },
+
+    _pluginChanged: function() {
+      this.$.requestConfig.generateRequest();
+    },
+    
+    _onConfigModel: function(data){
+      this.model = data.detail.response;
+    },
+
+    _onConfig: function(data){
+      this.config = data.detail.response;
+      //on recupere le model
+      this.$.requestConfigModel.generateRequest();
+    },
+
+    _getConfigValue : function(key){
+      if(!this.config) return '';
+      return this.config[key];
+    },
+
+    _getHeaderStyle: function(color) {
+      return 'background-color: '+ color+';';
+    },
+
+    _toArray: function(obj) {
+      if(!obj) return obj;
+      return Object.keys(obj).map(function(key) {
+        return {
+          name: key,
+          value: obj[key]
+        };
+      });
+    }
+  });
+</script>
