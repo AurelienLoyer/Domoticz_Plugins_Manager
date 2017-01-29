@@ -1,0 +1,120 @@
+:host {
+  display: block;
+  transition: var(--material-curve-320);
+  transform: translate(0, 60px);
+  opacity: 0;
+}
+
+:host(.active) {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+#content {
+  display: block;
+  position: relative;
+  width: 100%;
+  background: #fafafa;
+  border-radius: 2px;
+  box-sizing: border-box;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 200ms;
+  transition-timing-function: var(--material-curve);
+  color: #606060;
+  border: none;
+  padding: 16px;
+}
+
+:host(:hover) #content {
+  box-shadow: 0 5px 10px rgba(0,0,0,.15);
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 48px;
+  margin: 20px 0;
+  transform: translate(-50px, 0);
+  opacity: 0;
+  transition: all 500ms 320ms;
+  transition-timing-function: var(--material-curve-320);
+}
+
+:host(.active) h2 {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+h3 {
+  transform: translate(-50px, 0);
+  opacity: 0;
+  transition: all 600ms 320ms;
+  transition-timing-function: var(--material-curve-320);
+}
+
+:host(.active) h3 {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+hr {
+  border: 0;
+  background: #fff;
+  width: 0;
+  height: 1px;
+  opacity: 0.2;
+  margin: 0;
+  transition: width 400ms 320ms;
+  transition-timing-function: var(--material-curve-320);
+}
+
+:host(.active) hr {
+  width: 100%;
+  background: #606060;
+  opacity: 1;
+}
+
+.version {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 13px;
+  transition: all 400ms 320ms;
+  transition-timing-function: var(--material-curve-320);
+  transform: translate(50px, 0);
+  opacity: 0;
+}
+
+:host(.active) .version {
+  transform: translate(0, 0);
+  opacity: 0.8;
+}
+
+.title {
+  display: table-caption;
+  margin: 0 0 15px;
+  height: 64px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.title[extended] {
+  display: block;
+}
+
+.tagline {
+  transition: all 700ms 320ms;
+  transition-timing-function: var(--material-curve-320);
+  transform: translate(-50px, 0);
+  opacity: 0;
+  font-size: 13px;
+  margin: 10px 0 0 0;
+  line-height: 20px;
+  height: 40px;
+}
+
+:host(.active) .tagline {
+  transform: translate(0, 0);
+  opacity: 1;
+}

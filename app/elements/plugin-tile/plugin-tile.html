@@ -1,0 +1,34 @@
+<link rel="import" href="../theme-color/theme-color.html">
+
+<dom-module id="plugin-tile">
+  <link rel="import" type="css" href="plugin-tile.css">
+  <template>
+    <theme-color id="content" color="[[plugin.color]]" class="vertical layout" themed themed-border>
+      <span class="version">[[plugin.version]]</span>
+      <h2 class="symbol">[[plugin.symbol]]</h2>
+      <h3 class="title" extended$="[[_extendedTitle(plugin)]]">[[plugin.title]]</h3>
+      <hr themed-reverse>
+      <p class="tagline">[[plugin.tagline]]</p>
+    </theme-color>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'plugin-tile',
+    enableCustomStyleProperties: true,
+    properties: {
+      plugin: {type: Object}
+    },
+    attached: function() {
+      var tiles = this.parentNode.querySelectorAll('plugin-tile');
+      var index = Array.prototype.indexOf.call(tiles, this);
+      setTimeout(function() {
+        this.classList.add('active');
+      }.bind(this), (index + 1) * 50);
+    },
+    _extendedTitle: function(p) {
+      if (p.title && p.title.length > 20) return true;
+    }
+  });
+</script>
