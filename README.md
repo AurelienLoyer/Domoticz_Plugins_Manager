@@ -10,6 +10,7 @@ Web interface for manage all scripts and configs
 
 ### Preview
 [![Preview img](app/img/screen_1.png)](https://github.com/T3kstiil3/Domoticz_Scripts/tree/master/app)
+[![Preview img](app/img/screen_2.png)](https://github.com/T3kstiil3/Domoticz_Scripts/tree/master/app)
 
 ### Dev
 
