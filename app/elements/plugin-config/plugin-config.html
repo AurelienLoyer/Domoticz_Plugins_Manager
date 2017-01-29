@@ -16,13 +16,15 @@
         background: white;
         border: 1px solid #d0d0d0;
         border-radius: 3px;
-        opacity: 1;
         transition: opacity 0.4s;
+        transition: var(--material-curve-320);
+        transform: translate(0, 60px);
+        opacity: 0;
       }
 
-      :host(.hidden) {
-        transition: none;
-        opacity: 0;
+      :host(.active) {
+        transform: translate(0, 0);
+        opacity: 1;
       }
 
       .header {
@@ -84,6 +86,10 @@
         --paper-toast-color: white;
       }
 
+      paper-toast {
+        left: 0!important;
+      }
+
       .required_icon{
         color: red;
         font-size: 15px;
@@ -124,8 +130,8 @@
 
     <paper-toast id="toast_result" text="This toast auto-closes after 3 seconds" ></paper-toast>
     <paper-toast id="toast_error" text="This toast auto-closes after 3 seconds" ></paper-toast>
-    <script> toast_result.fitInto = container; </script>
-    <script> toast_error.fitInto = container; </script>
+    <script> toast_result.fitInto = this; </script>
+    <script> toast_error.fitInto = this; </script>
     
   </template>
 </dom-module>
@@ -157,9 +163,15 @@
       }
     },
 
+    attached: function() {
+      setTimeout(function() {
+        this.classList.add('active');
+      }.bind(this), 800);
+    },
+
     _saveConfig : function(event){
       if(this.$.form.validate()){
-        this.$.toast_result.show({text: 'Save in progress...', duration: 1000});
+        //this.$.toast_result.show({text: 'Save in progress...', duration: 1000});
         var data = this.$.form.serialize();
         this.param = {
           "data" : data,

@@ -9,18 +9,33 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 
 <dom-module id="plugin-cron">
-  <template id="container">
+  <template>
     <style>
       :host {
         display: block;
         position: relative;
-        opacity: 1;
+        background: white;
+        border: 1px solid #d0d0d0;
+        border-radius: 3px;
         transition: opacity 0.4s;
+        margin: 20px auto;
+        transition: var(--material-curve-320);
+        transform: translate(0, 60px);
+        opacity: 0;
       }
 
-      :host(.hidden) {
-        transition: none;
-        opacity: 0;
+      :host(.active) {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
+
+      .header {
+        padding: 0 24px;
+        line-height: 56px;
+        font-size: 12px;
+        font-weight: 500;
+        border-bottom: 1px solid #e5e5e5;
+        color: white;
       }
 
       #toast_error {
@@ -40,13 +55,28 @@
         text-align: right;
       }
 
+      .row.validate{
+        text-align: right;
+      }
+
+      .validate_config{
+        margin: 20px;
+        color: white;
+      }
+
+      iron-icon{
+        color: white;
+      }
+
     </style>
 
-    <paper-dialog id="animated" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
-      <h2>{{plugin.title}} frequency settings</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    </paper-dialog>
+    <div entry-animation="scale-up-animation" exit-animation="fade-out-animation" class="header" style$="[[_getHeaderStyle(color)]]">
+      Frequency settings
+    </div>
+
+    <div class="row validate">
+      <paper-button on-click="_saveCron" raised class="validate_config" style$="[[_getHeaderStyle(color)]]"><iron-icon icon="save"></iron-icon> Save</paper-button>
+    </div>
 
     <paper-toast id="toast_result" text="This toast auto-closes after 3 seconds" ></paper-toast>
     <paper-toast id="toast_error" text="This toast auto-closes after 3 seconds" ></paper-toast>
@@ -72,6 +102,12 @@
         observer: '_activateChanged'
       }
     },
+
+    attached: function() {
+      setTimeout(function() {
+        this.classList.add('active');
+      }.bind(this), 400);
+    },
     
     _pluginChanged: function() {
       console.log(this.plugin);
@@ -82,9 +118,14 @@
       if(typeof old === 'undefined' || active_now == old) return;
       if(active_now){
         this.$.toast_result.show({text: this.plugin.title+" is activate", duration: 3000});
+        this.$.crondialog.open();
       }else{
         this.$.toast_error.show({text: this.plugin.title+" is disable", duration: 3000});
       }
+    },
+
+    _saveCron : function(){
+
     },
     
     _getHeaderStyle: function(color) {

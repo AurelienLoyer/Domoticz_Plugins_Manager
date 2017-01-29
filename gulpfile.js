@@ -1,5 +1,5 @@
 /**
- * Gulp task to run the web server
+ * Gulp task to run the web server for local dev
  *
  * @usage
  *   $ gulp webserver
