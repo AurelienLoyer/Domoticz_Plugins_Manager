@@ -8,8 +8,6 @@
 * @twitter @T3kstiil3
 */
 
-include('app/inc/functions.php');
-
 // Dev mode ON :)
 $mod_debug = true;
 if($mod_debug){
@@ -21,7 +19,6 @@ $display_result = true;
 
 //Fichiers script & config
 $file_config = 'config.json'; // fichier de config
-
 // On recupere le fichier de config et l'ip
 $config = json_decode(file_get_contents($file_config,FILE_USE_INCLUDE_PATH),true);
 

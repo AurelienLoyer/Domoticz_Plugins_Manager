@@ -1,0 +1,65 @@
+{
+  "country": {
+		"type" : "text",
+		"label" : "Country",
+		"default" : "France",
+		"required" : true,
+		"description" : "Country Aliquam ut lorem et augue ornare porta. Praesent ac risus a tortor commodo posuere vitae id dui. Interdum et malesuada fames ac ante ipsum primis in faucibus."
+	},
+  "apikey" : {
+		"type" : "text",
+		"label" : "Api Key Wunderground",
+		"default" : "avdsqdlk98z",
+		"required" : true,
+		"description" : "Api Key from http://api.wunderground.com ."
+	},
+  "town": {
+		"type" : "text",
+		"label" : "City",
+		"default" : "Lille",
+		"required" : true,
+		"description" : "Your town !"
+	},
+  "lang" : {
+		"type" : "text",
+		"label" : "Langage",
+		"default" : "FR",
+		"required" : true,
+		"description" : "Your langage !"
+	},
+  "IDX_1h" : {
+		"type" : "number",
+		"label" : "Domoticz id for 1h",
+		"default" : 200,
+		"required" : true,
+		"description" : "Domoticz id for rain proballity 1 hour."
+	},
+  "IDX_5h" : {
+		"type" : "number",
+		"label" : "Domoticz id for 5h",
+		"default" : 201,
+		"required" : true,
+		"description" : "Domoticz id for rain proballity 5 hours."
+	},
+  "IDX_12h" : {
+		"type" : "number",
+		"label" : "Domoticz id for 12h",
+		"default" : 202,
+		"required" : true,
+		"description" : "Domoticz id for rain proballity 12 hours."
+	},
+  "IDX_24h" : {
+		"type" : "number",
+		"label" : "Domoticz id for 24h",
+		"default" : 203,
+		"required" : true,
+		"description" : "Domoticz id for rain proballity 24 hours."
+	},
+  "domoticz_url" : {
+		"type" : "text",
+		"label" : "Your domoticz ip",
+		"default" : "127.0.0.1:8080",
+		"required" : true,
+		"description" : "Your domoticz ip Aliquam ut lorem et augue ornare porta. Praesent ac risus a tortor commodo posuere vitae id dui. Interdum et malesuada"
+	}
+}

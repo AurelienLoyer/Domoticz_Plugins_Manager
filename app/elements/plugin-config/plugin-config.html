@@ -36,15 +36,15 @@
 
       .header .name,.row .name{
         display: inline-block;
-        width: 80%;
+        width: 70%;
       }
       .header .value,.row .value{
         display: inline-block;
-        width: auto;
+        width: 26%;
       }
 
       .row .value paper-input{
-        width: 200px;
+        width: 100%;
         margin-bottom: 12px;
       }
 
@@ -84,12 +84,17 @@
         --paper-toast-color: white;
       }
 
+      .required_icon{
+        color: red;
+        font-size: 15px;
+        font-weight: bold;
+      }
+
     </style>
 
     <iron-ajax id="requestConfigModel" url="../../{{plugin.folder}}/config_model.json" method="get" handle-as="json" on-response="_onConfigModel"></iron-ajax>
     <iron-ajax id="requestConfig" url="../../{{plugin.folder}}/config.json" method="get" handle-as="json" on-response="_onConfig"></iron-ajax>
-    <iron-ajax id="saveConfig" url="../../{{plugin.folder}}/config.json" method="post" handle-as="json" on-response="_configSave"></iron-ajax>
-
+    <iron-ajax id="saveConfig" url="../../../save.php" handle-as="json" on-response="_configSave" method="POST" content-type='application/json'></iron-ajax>
 
     <div class="header" style$="[[_getHeaderStyle(color)]]">
       <div class="name">Key <span class="narrow">/ Description</span></div>
@@ -101,10 +106,13 @@
         <div class="row config" data-index$="[[index]]">
           <div class="name">
             [[item.name]]
+            <template is="dom-if" if='{{item.value.required}}'>
+              <span class="required_icon">*</span>
+            </template>
             <span class="description">[[item.value.description]]</span>
           </div>
           <div class="value">
-            <paper-input name="[[item.name]]" pattern="[[item.value.pattern]]" required="[[item.value.required]]" value="{{_getConfigValue(item.name)}}" required label="[[item.value.label]]" placeholder="[[item.value.default]]" error-message="Wrong data !"></paper-input>
+            <paper-input name="[[item.name]]" pattern="[[item.value.pattern]]" required="[[item.value.required]]" value="{{_getConfigValue(item.name)}}" required label="[[item.value.label]]" placeholder="[[item.value.default]]" error-message="Field missing or incorrect"></paper-input>
           </div>
         </div>
       </template>
@@ -142,6 +150,10 @@
       config : {
         type : Object,
         value : null
+      },
+      param : {
+        value : "test",
+        notify: true
       }
     },
 
@@ -149,16 +161,30 @@
       if(this.$.form.validate()){
         this.$.toast_result.show({text: 'Save in progress...', duration: 1000});
         var data = this.$.form.serialize();
-        console.log(data);
+        this.param = {
+          "data" : data,
+          "plugin" : this.plugin
+        };
+        setTimeout(() => {
+          this.$.saveConfig.body = JSON.stringify(this.param);
+          this.$.saveConfig.generateRequest();
+        },1);
+  
       }else{
-        this.$.toast_error.show({text: 'Missing data ! :O', duration: 2000});
+        this.$.toast_error.show({text: 'Field missing or incorrect', duration: 3000});
         var data = this.$.form.serialize();
       }
       
     },
 
     _configSave : function(data){
-      this.$.toast_result.show({text: data.detail.response, duration: 3000});
+      var resp = data.detail.response;
+      //console.log("config saved");
+      if(resp && resp.error){
+        this.$.toast_error.show({text: resp.message, duration: 3000});
+        return;
+      }
+      this.$.toast_result.show({text: resp.message, duration: 3000});
     },
 
     _pluginChanged: function() {

@@ -293,3 +293,11 @@ paper-spinner{
   height: 70px;
   margin: 15% 50%;
 }
+
+.frequency{
+  margin-right: 20px;
+}
+
+.frequency iron-icon{
+  margin-right: 10px;
+}

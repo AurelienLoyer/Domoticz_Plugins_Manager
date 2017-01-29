@@ -39,6 +39,7 @@
     "paper-spinner": "PolymerElements/paper-spinner#^1.2.1",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#^1.2.1",
     "iron-icon": "PolymerElements/iron-icon#^1.0.12",
-    "iron-form": "PolymerElements/iron-form#^1.1.4"
+    "iron-form": "PolymerElements/iron-form#^1.1.4",
+    "paper-dialog": "PolymerElements/paper-dialog#^1.1.0"
   }
 }

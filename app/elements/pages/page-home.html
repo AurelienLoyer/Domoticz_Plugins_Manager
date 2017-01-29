@@ -3,9 +3,7 @@
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 
 <link rel="import" href="../plugins-data/plugins-data.html">
-<link rel="import" href="../package-tile/package-tile.html">
-<link rel="import" href="../guide-card/guide-card.html">
-<link rel="import" href="../cart-icon/cart-icon.html">
+<link rel="import" href="../plugin-tile/plugin-tile.html">
 
 <dom-module id="page-home">
   <link rel="import" type="css" href="page-home.css">
@@ -18,14 +16,13 @@
       <paper-toolbar class="paper-header">
         <app-logo full class="flex"></app-logo>
         <app-bar class="horizontal layout center end-justified" query="{{q}}"></app-bar>
-        <cart-icon></cart-icon>
       </paper-toolbar>
 
       <div class="content fit">
         <div class="packages layout horizontal wrap">
           <template is="dom-repeat" items="[[plugins]]">
             <a href$="[[_packageLink(item.name)]]" class="package flex-none">
-              <package-tile plugin$="[[item]]"></package-tile>
+              <plugin-tile plugin$="[[item]]"></plugin-tile>
             </a>
           </template>
         </div>
