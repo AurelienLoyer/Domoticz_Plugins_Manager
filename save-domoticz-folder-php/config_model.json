@@ -1,0 +1,23 @@
+{
+    "zip_name" : {
+  		"type" : "text",
+  		"label" : "Your domoticz zip name",
+  		"default" : "domoticz_save_%date%.zip",
+  		"required" : true,
+  		"description" : "Your domoticz zip name, you can use %date% to insert current date in the name (date foramt Y-m-d)"
+  	},
+    "save_destination" : {
+  		"type" : "text",
+  		"label" : "Your domoticz save path destination",
+  		"default" : "/path/to/save/",
+  		"required" : true,
+  		"description" : "Your domoticz path destination, you can use %date% to insert current date in the path (date foramt Y-m-d)"
+  	},
+    "folder_2_save_path" : {
+  		"type" : "text",
+  		"label" : "Your domoticz path",
+  		"default" : "/path/to/domoticz",
+  		"required" : true,
+  		"description" : "Your domoticz path"
+  	}
+}
