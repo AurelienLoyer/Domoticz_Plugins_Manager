@@ -55,6 +55,12 @@
         text-align: right;
       }
 
+      .row.cron{
+        color: #424242;
+        margin-left: 1%;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
       .row.validate{
         text-align: right;
       }
@@ -74,13 +80,29 @@
       Frequency settings
     </div>
 
+    <div class="row cron">
+      <template is="dom-if" if='{{showhelp}}'>
+        <code>
+          +---------------- minute (0 - 59) <br>
+          |  +------------- hour (0 - 23)<br>
+          |  |  +---------- day of month (1 - 31)<br>
+          |  |  |  +------- month (1 - 12)<br>
+          |  |  |  |  +---- day of week (0 - 6) (Sunday=0 or 7)<br>
+          |  |  |  |  |<br>
+          *  *  *  *  *<br>
+        </code>
+      </template>
+      <paper-input name="cron" pattern="" required="true" value="" required label="Cron value" placeholder="0 0 13 1 5" error-message="Field missing or incorrect"></paper-input>
+    </div>
+
     <div class="row validate">
+      <paper-button on-click="_toggleHelp" raised class="validate_config" style="background-color:#0180C7"><iron-icon icon="help"></iron-icon> Show Help</paper-button>
       <paper-button on-click="_saveCron" raised class="validate_config" style$="[[_getHeaderStyle(color)]]"><iron-icon icon="save"></iron-icon> Save</paper-button>
     </div>
 
     <paper-toast id="toast_result" text="This toast auto-closes after 3 seconds" ></paper-toast>
     <paper-toast id="toast_error" text="This toast auto-closes after 3 seconds" ></paper-toast>
-    
+
   </template>
 </dom-module>
 <script>
@@ -100,7 +122,14 @@
       activate : {
         notify: true,
         observer: '_activateChanged'
+      },
+      showhelp:{
+        type: Boolean,
+        value: false
       }
+    },
+
+    ready : function(){
     },
 
     attached: function() {
@@ -108,7 +137,7 @@
         this.classList.add('active');
       }.bind(this), 400);
     },
-    
+
     _pluginChanged: function() {
       console.log(this.plugin);
       //this.$.requestConfig.generateRequest();
@@ -127,7 +156,11 @@
     _saveCron : function(){
 
     },
-    
+
+    _toggleHelp : function(){
+      this.showhelp = !this.showhelp;
+    },
+
     _getHeaderStyle: function(color) {
       return 'background-color: '+ color+';';
     },

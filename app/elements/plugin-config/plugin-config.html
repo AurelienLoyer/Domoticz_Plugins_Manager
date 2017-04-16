@@ -36,11 +36,11 @@
         color: white;
       }
 
-      .header .name,.row .name{
+      .header .name,.row .name, .row .sub-name{
         display: inline-block;
         width: 70%;
       }
-      .header .value,.row .value{
+      .header .value,.row .value,.row .sub-value{
         display: inline-block;
         width: 26%;
       }
@@ -62,6 +62,12 @@
         margin-top: 10px;
         margin-left: 5%;
         font-size: small;
+      }
+
+      .section-name{
+        background: rgba(128, 128, 128, 0.2);
+        padding: 10px;
+        width: 95%;
       }
 
       .row.config .name{
@@ -110,20 +116,46 @@
     <form is="iron-form" id="form">
       <template is="dom-repeat" items="[[_toArray(model)]]">
         <div class="row config" data-index$="[[index]]">
-          <div class="name">
-            [[item.name]]
-            <template is="dom-if" if='{{item.value.required}}'>
-              <span class="required_icon">*</span>
+          <template is="dom-if" if="{{!isSection(item.value.type)}}"><!--Normal section-->
+            <div class="name">
+              [[item.name]]
+              <template is="dom-if" if='{{item.value.required}}'>
+                <span class="required_icon">*</span>
+              </template>
+              <span class="description">[[item.value.description]]</span>
+            </div>
+            <div class="value">
+              <paper-input name="[[item.name]]" pattern="[[item.value.pattern]]" required="[[item.value.required]]" value="{{_getConfigValue(item.name)}}" required label="[[item.value.label]]" placeholder="[[item.value.default]]" error-message="Field missing or incorrect"></paper-input>
+            </div>
+          </template>
+          <template is="dom-if" if="{{isSection(item.value.type)}}"><!--Normal section-->
+            <div class="section-name">
+              [[item.name]]
+            </div>
+            <template is="dom-repeat" items="{{_toArray(item.value.values)}}" as="subitem" index-as="report_no">
+              <div class="row config">
+                <div class="sub-name">
+                  [[subitem.name]]
+                  <template is="dom-if" if='{{subitem.value.required}}'>
+                    <span class="required_icon">*</span>
+                  </template>
+                  <span class="description">[[subitem.value.description]]</span>
+                </div>
+                <div class="value">
+                  <template is="dom-if" if='{{1==1}}'>
+                    <paper-checkbox checked>Checked</paper-checkbox>
+                  </template>
+                  <template is="dom-if" if='{{1==0}}'>
+                    <paper-input name="[[subitem.name]]" pattern="[[subitem.value.pattern]]" required="[[subitem.value.required]]" value="{{_getConfigValue(subitem.name)}}" required label="[[subitem.value.label]]" placeholder="[[subitem.value.default]]" error-message="Field missing or incorrect"></paper-input>
+                  </template>
+                </div>
+              </div>
             </template>
-            <span class="description">[[item.value.description]]</span>
-          </div>
-          <div class="value">
-            <paper-input name="[[item.name]]" pattern="[[item.value.pattern]]" required="[[item.value.required]]" value="{{_getConfigValue(item.name)}}" required label="[[item.value.label]]" placeholder="[[item.value.default]]" error-message="Field missing or incorrect"></paper-input>
-          </div>
+          </template>
         </div>
       </template>
     </form>
-    
+
     <div class="row config validate">
       <paper-button on-click="_saveConfig" raised class="validate_config" style$="[[_getHeaderStyle(color)]]"><iron-icon icon="save"></iron-icon> Save</paper-button>
     </div>
@@ -132,7 +164,7 @@
     <paper-toast id="toast_error" text="This toast auto-closes after 3 seconds" ></paper-toast>
     <script> toast_result.fitInto = this; </script>
     <script> toast_error.fitInto = this; </script>
-    
+
   </template>
 </dom-module>
 <script>
@@ -169,6 +201,10 @@
       }.bind(this), 800);
     },
 
+    isSection: function(type){
+      return type == 'section'
+    },
+
     _saveConfig : function(event){
       if(this.$.form.validate()){
         //this.$.toast_result.show({text: 'Save in progress...', duration: 1000});
@@ -181,12 +217,12 @@
           this.$.saveConfig.body = JSON.stringify(this.param);
           this.$.saveConfig.generateRequest();
         },1);
-  
+
       }else{
         this.$.toast_error.show({text: 'Field missing or incorrect', duration: 3000});
         var data = this.$.form.serialize();
       }
-      
+
     },
 
     _configSave : function(data){
@@ -202,8 +238,9 @@
     _pluginChanged: function() {
       this.$.requestConfig.generateRequest();
     },
-    
+
     _onConfigModel: function(data){
+      console.log(data)
       this.model = data.detail.response;
     },
 
