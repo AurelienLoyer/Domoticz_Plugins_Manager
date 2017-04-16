@@ -1,0 +1,6 @@
+*.pyc
+
+/dist
+/build
+/broadlink.egg-info
+records/*
