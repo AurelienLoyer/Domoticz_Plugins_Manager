@@ -8,6 +8,9 @@ xee-car-data-to-domoticz-php/xee_conf.json
 xee_token.txt
 xee_conf.json
 
+#Global cron config
+cron.json
+
 .DS_Store
 
 /node_modules
