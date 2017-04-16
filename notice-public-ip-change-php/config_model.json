@@ -1,6 +1,6 @@
 {
 	"active": {
-		"type" : "boolean",
+		"type" : "checkbox",
 		"default" : true,
 		"description" : "Enable / Disable all notif"
 	},
@@ -8,7 +8,7 @@
 		"type" : "section",
 		"name" : "Notice Free Settings",
 		"description" : "",
-		"values" :{
+		"values" : {
 			"active": {
 				"type" : "boolean",
 				"default" : false,
@@ -35,7 +35,7 @@
 		"type" : "section",
 		"name" : "Notice Email Settings",
 		"description" : "",
-		"values" :{
+		"values" : {
 			"active": {
 				"type" : "boolean",
 				"default" : false,
@@ -64,8 +64,25 @@
 		}
 	},
 	"notice_domoticz":{
-		"active": true,
-		"domoticz_url": "127.0.0.1:8080",
-		"widget_id" : 401
+		"type" : "section",
+		"name" : "Notice Domoticz Settings",
+		"description" : "",
+		"values" : {
+			"active": {
+				"type" : "boolean",
+				"default" : false,
+				"description": "Enable / Disable SMS notif"
+			},
+			"domoticz_url": {
+				"type" : "string",
+				"default" : "127.0.0.1:8080",
+				"description": "API FREE send message, keep %IP% in your message"
+			},
+			"widget_id": {
+				"type" : "number",
+				"default" : "401",
+				"description": "API FREE user"
+			}
+		}
 	}
 }
