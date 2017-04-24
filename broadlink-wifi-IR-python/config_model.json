@@ -1,0 +1,16 @@
+{
+  "str_ip" : {
+		"type" : "text",
+		"label" : "BroadLink IP",
+		"default" : "192.168.0.89",
+		"required" : true,
+		"description" : "BroadLink IP Aliquam ut lorem et augue ornare porta. Praesent ac risus a tortor commodo posuere vitae id dui. Interdum et malesuada fames ac ante ipsum primis in faucibus."
+	},
+  "str_mac" : {
+		"type" : "text",
+		"label" : "BroadLink Mac Adresse",
+		"default" : "78:1a:89:3d:c1:2b",
+		"required" : true,
+		"description" : "BroadLink Mac Adresse Aliquam ut lorem et augue ornare porta. Praesent ac risus a tortor commodo posuere vitae id dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Interdum et malesuada fames ac ante ipsum primis in faucibus."
+	}
+}

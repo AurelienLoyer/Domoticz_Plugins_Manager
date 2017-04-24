@@ -1,6 +1,8 @@
 Python control for Broadlink RM2 IR controllers
 ===============================================
 
+Bridge to connect all IR device over Wifi ! You can use locatrm script to find easily your BroadLink Ip and Mac adresse.
+
 A simple Python API for controlling IR controllers from [Broadlink](http://www.ibroadlink.com/rm/). At present, only RM Pro (referred to as RM2 in the codebase) and A1 sensor platform devices are supported. There is currently no support for the cloud API.
 
 

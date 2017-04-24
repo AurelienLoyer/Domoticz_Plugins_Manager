@@ -4,7 +4,7 @@ import broadlink
 import time
 import sys
 
-from conf import *
+from config import *
 
 device = broadlink.rm(host=(str_ip,80), mac=bytearray.fromhex(str_mac))
 

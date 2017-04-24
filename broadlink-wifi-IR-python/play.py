@@ -3,8 +3,15 @@
 import broadlink
 import time
 import sys
+import json
+import os
 
-from conf import *
+with open('config.json') as data_file:
+    config = json.load(data_file)
+
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+print "Device IP: " + config['str_ip'] +" Mac : " + config['str_mac'] +" !"
 
 try:
     fileName = sys.argv[1]
@@ -15,8 +22,7 @@ if fileName == 'null':
    print "Error - no file name parameter suffixed"
    sys.exit()
 else:
-
-   device = broadlink.rm(host=(str_ip,80), mac=bytearray.fromhex(str_mac))
+   device = broadlink.rm(host=(config['str_ip'],80), mac=bytearray.fromhex(config['str_mac']))
 
 print "Connecting to Broadlink device...."
 device.auth()
@@ -25,7 +31,7 @@ print "Connected...."
 time.sleep(1)
 device.host
 
-file = open(fileName, 'r')
+file = open(os.path.join(__location__,fileName), 'r')
 
 myhex = file.read()
 
