@@ -16,14 +16,15 @@
 <link rel="import" href="../plugin-symbol/plugin-symbol.html">
 <link rel="import" href="../plugin-cron/plugin-cron.html">
 <link rel="import" href="../plugin-config/plugin-config.html">
+<link rel="import" href="../plugin-run/plugin-run.html">
 
 <dom-module id="page-plugins">
   <link rel="import" type="css" href="page-plugins.css">
   <template>
     <style include="iron-flex iron-flex-alignment"></style>
-    
+
     <plugins-data description="{{description}}" plugins="{{plugins}}" version="{{version}}"></plugins-data>
-        
+
     <paper-drawer-panel id="drawerPanel" responsive-width="900px" narrow="{{narrowMode}}" drawer-width="272px" disable-edge-swipe disable-swipe>
         <app-sidebar drawer>
           <paper-toolbar>
@@ -65,7 +66,7 @@
         <div class="paper-header">
         <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
           <h2 class="flex">
-            [[pageTitle]] 
+            [[pageTitle]]
             <template is="dom-if" if="{{plugin.version}}">
               <i>v[[plugin.version]]</i>
             </template>
@@ -87,6 +88,9 @@
           <template is="dom-if" if="[[plugin.version]]">
               <plugin-cron activate="[[activate]]" color="[[_getColor(plugin)]]" plugin="[[plugin]]"></plugin-cron>
               <plugin-config color="[[_getColor(plugin)]]" plugin="[[plugin]]"></plugin-config>
+              <template is="dom-repeat" items="[[plugin.scripts]]">
+                <plugin-run color="[[_getColor(plugin)]]" script="[[item]]" plugin="[[plugin]]"></plugin-run>
+              </template>
           </template>
 
           <template is="dom-if" if="[[readme]]">
@@ -121,9 +125,9 @@
         tag: {type: String, notify: true, value: ''},
         package: {type: String, notify: true, value: ''},
         view: {type: String, notify: true},
-        
+
         viewIcon: {type: String, computed: 'computeViewIcon(view)', value: 'view-module'},
-        
+
         _filteredElements: Array,
         _elementCount: Number,
         _forceCards: {type: Boolean},
@@ -237,7 +241,7 @@
         this.loadPage();
       },
       updateURL: function(q,pluginName) {
-       
+
         var qs = this._buildQueryString();
         if (qs !== _lastNavigated && this.router) {
           _lastNavigated = qs;

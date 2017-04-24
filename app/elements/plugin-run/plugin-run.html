@@ -1,0 +1,186 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+
+<dom-module id="plugin-run">
+  <template>
+    <style>
+      :host {
+        display: block;
+        position: relative;
+        background: white;
+        border: 1px solid #d0d0d0;
+        border-radius: 3px;
+        transition: opacity 0.4s;
+        margin: 20px auto;
+        transition: var(--material-curve-320);
+        transform: translate(0, 60px);
+        opacity: 0;
+      }
+
+      :host(.active) {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
+
+      .header {
+        padding: 0 24px;
+        line-height: 56px;
+        font-size: 12px;
+        font-weight: 500;
+        border-bottom: 1px solid #e5e5e5;
+        color: white;
+      }
+
+      #toast_error {
+        --paper-toast-background-color: #F44336;
+        --paper-toast-color: white;
+      }
+
+      .required_icon{
+        color: red;
+        font-size: 15px;
+        font-weight: bold;
+      }
+
+      paper-toast {
+        left : auto!important;
+        right: 10px;
+        text-align: right;
+      }
+
+      .row.cron{
+        color: #424242;
+        margin-left: 1%;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      .row.validate{
+        text-align: right;
+      }
+
+      .validate_config{
+        margin: 20px;
+        color: white;
+      }
+
+      iron-icon{
+        color: white;
+      }
+
+      .terminal{
+        background: black;
+        color: white;
+        padding: 15px;
+        margin-top: 10px;
+      }
+
+      .flex{
+        display: flex;
+      }
+
+      .button{
+
+      }
+      .informations{
+        padding: 0px 20px;
+      }
+
+      .description{
+        font-style: italic;
+      }
+
+    </style>
+
+    <div entry-animation="scale-up-animation" exit-animation="fade-out-animation" class="header" style$="[[_getHeaderStyle(color)]]">
+      Scripts : [[script.name]]
+    </div>
+
+    <div class="row">
+      <div class="flex">
+        <div class="button">
+          <paper-button on-click="_runScript" raised class="validate_config" style$="[[_getHeaderStyle(color)]]"><iron-icon icon="bug-report"></iron-icon> Run </paper-button>
+        </div>
+        <div class="informations">
+          <p>Command : <strong>[[script.command]]</strong></p>
+          <p class="description">[[script.description]]</p>
+        </div>
+      </div>
+
+      <template is="dom-if" if="[[script.result]]">
+        <div class="terminal">
+          ************************************************ <br>
+          Using python library created by Matthew Garrett<br>
+          https://github.com/mjg59/python-broadlink<br>
+          ************************************************<br>
+          Scanning network for Broadlink devices....<br>
+          Found 0 broadlink devices<br>
+          ...............<br>
+        </div>
+      </template>
+    </div>
+
+    <paper-toast id="toast_result" text="This toast auto-closes after 3 seconds" ></paper-toast>
+    <paper-toast id="toast_error" text="This toast auto-closes after 3 seconds" ></paper-toast>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'plugin-run',
+
+    properties: {
+      plugin: {
+        type: Object,
+        notify: true,
+        observer: '_pluginChanged'
+      },
+      script: {
+        type: Object,
+        notify: true,
+        observer: '_scriptChanged'
+      },
+      color: {
+        type: String,
+        notify: true
+      },
+      showhelp:{
+        type: Boolean,
+        value: false
+      }
+    },
+
+    ready : function(){
+    },
+
+    attached: function() {
+      setTimeout(function() {
+        this.classList.add('active');
+      }.bind(this), 400);
+    },
+
+    _pluginChanged: function() {
+      console.log(this.plugin);
+      //this.$.requestConfig.generateRequest();
+    },
+
+    _scriptChanged: function() {
+      console.log(this.script);
+      //this.$.requestConfig.generateRequest();
+    },
+
+    _runScript : function(){
+
+    },
+
+    _getHeaderStyle: function(color) {
+      return 'background-color: '+ color+';';
+    }
+  });
+</script>

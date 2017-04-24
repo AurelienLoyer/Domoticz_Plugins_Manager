@@ -17,8 +17,6 @@ if(isset($_GET['save'])){
 
     if($plugin && $config){
 
-
-
         $file_config = "cron.json";
         //file_put_contents($file_config, json_encode($config));
         $result = array(

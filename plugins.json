@@ -1,7 +1,24 @@
-{   
+{
     "version" : "1.0.0",
     "description": "Additional plugins/scripts for Domoticz",
     "plugins" : [
+        {
+            "title":"Broadlink Wifi IR",
+            "name":"broadlink-wifi-IR-python",
+            "folder":"broadlink-wifi-IR-python",
+            "version":"2.0.1",
+            "symbol" : "BWI",
+            "tagline": "Broadlink Wifi IR on Domoticz",
+            "color" : "#E72E29",
+            "scripts":[
+              {
+                "name": "Locate BroadLink",
+                "command": "python broadlink-wifi-IR-python/locatrm.py",
+                "description" : "Find easily your BroadLink Ip and Mac adresse."
+              }
+            ]
+
+        },
         {
             "title":"Get Rain Proballity",
             "name":"get_rain_probability-php",
