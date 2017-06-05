@@ -3,10 +3,12 @@
 import broadlink
 import time
 import sys
+import json
 
-from config import *
+with open('config.json') as data_file:
+    config = json.load(data_file)
 
-device = broadlink.rm(host=(str_ip,80), mac=bytearray.fromhex(str_mac))
+device = broadlink.rm(host=(config['str_ip'],80), mac=bytearray.fromhex(config['str_mac']))
 
 print "Connecting to Broadlink device...."
 device.auth()
