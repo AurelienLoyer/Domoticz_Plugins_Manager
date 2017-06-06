@@ -6,10 +6,10 @@ import sys
 import json
 import os
 
-with open('config.json') as data_file:
-    config = json.load(data_file)
-
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+with open(os.path.join(__location__,'config.json')) as data_file:
+    config = json.load(data_file)
 
 print "Device IP: " + config['str_ip'] +" Mac : " + config['str_mac'] +" !"
 
@@ -30,7 +30,7 @@ time.sleep(1)
 print "Connected...."
 time.sleep(1)
 device.host
-
+print os.path.join(__location__,fileName)
 file = open(os.path.join(__location__,fileName), 'r')
 
 myhex = file.read()
